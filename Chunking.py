@@ -12,9 +12,9 @@ def cleanup(text) :
       return text.strip()
 
 #splitting chapters
-def splitChapters(book_text) :
-      pattern = r"(CHAPTER\s+[IVXLCDM0-9]+\.?)" #capturing paranthesis ensure that chapter number is also in parts
-      parts = re.split(pattern, book_text)
+def splitChapters(book_text, min_text_length = 50) :
+      pattern = r"(chapter\s+\d+|chapter\s+[ivxlcdm]+\.?)" #capturing paranthesis ensure that chapter number is also in parts
+      parts = re.split(pattern, book_text, flags=re.IGNORECASE)
       
       
       chapter_title = None
@@ -22,10 +22,12 @@ def splitChapters(book_text) :
 
       for part in parts : 
             part = part.strip()
-            if re.match(pattern, part) :
+            if re.match(pattern, part, flags=re.IGNORECASE) :
                   chapter_title=part
             elif chapter_title :
-                  chapter.append((chapter_title,part))
+                  word_count = len(part.split())
+                  if (word_count>min_text_length):
+                        chapter.append((chapter_title,part))
                   chapter_title=None
       
       return chapter
@@ -66,6 +68,7 @@ def full_pipeline(json_path) :
             text = cleanup(book["Content"])
 
             chapters = splitChapters(text)
+            print(f"Book {book_num} chapters found:", len(chapters))
             for chapter_id, (chapter_title, text) in enumerate(chapters,1) :
                   paragraphs = [p.strip() for p in text.split("\n\n") if len(p.strip()) > 40]
                   chunks = build_chunks(paragraphs)
