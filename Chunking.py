@@ -1,14 +1,25 @@
 import os
 import json
 import re
+import unicodedata
+import ftfy
+
 
 Min_word = 200
 Max_word =400
 
 #basic cleaner
 def cleanup(text) :
-      text = text.replace("\x00", " ")
+      #fixing unicode issues
+      text = ftfy.fix_text(text)
+      #Normalising unicode
+      text = unicodedata.normalize("NFKC", text)
+
+      #fixing structural issue
+      text = re.sub(r"(?<!\n)\n(?!\n)", " ", text)
       text = re.sub(r"\n{3,}", "\n\n", text)
+      text = re.sub(r"[ \t]+", " ", text) 
+            
       return text.strip()
 
 #splitting chapters
@@ -91,4 +102,4 @@ if __name__ == "__main__" :
       # print(chunks[0]["Chapter"])
       # print(chunks[0]["text"][:1000]) 
       with open("chunks.json", "w", encoding="utf-8") as f :
-            json.dump(chunks,f)
+            json.dump(chunks,f, ensure_ascii=False, indent=2)
