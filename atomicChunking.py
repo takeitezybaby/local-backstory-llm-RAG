@@ -84,13 +84,14 @@ def atomic_pipeline (input_path, output_path):
       output_chunks = []
       for scene in scenic_text :
             text = scene["text"]
-
+            book_num = scene["Book"]
             atomic_chunks = atomic_chunking(text)
+            print(f"Book {book_num} → before filter:", len(atomic_chunks))
             atomic_chunks = [
                   a for a in atomic_chunks
                   if is_factual(a)
             ]
-
+            print(f"Book {book_num} → after filter:", len(atomic_chunks))
             for idx, atomic_text in enumerate(atomic_chunks, 1) :
                   output_chunks.append({
                         "Book" : scene["Book"],
