@@ -2,8 +2,10 @@ import requests
 import json
 import numpy as np
 import faiss
+import spacy
 
 k=10
+nlp = spacy.load("en_core_web_sm")
 
 #loading chunks
 def loadChunks(path):
@@ -27,6 +29,17 @@ def createEmbeddings(texts) :
       embeddings.extend(embedding)
       return embeddings
 
+#creating entity map 
+def build_entity_map(chunks) :
+      entity_map={}
+      
+      for idx, chunk in enumerate(chunks) :
+            doc = nlp(chunk["text"])
+            for ent in doc.ents :
+                  if ent.label_ == "PERSON" :
+                        name = ent.text
+                        entity_map.setdefault(name, []).append(idx)
+      return entity_map
 
 #normalizing vectors for cosine similarity
 def normalize(vectors) :
@@ -56,4 +69,9 @@ if __name__ == '__main__' :
       index = vectorIndex(embeddings)
       faiss.write_index(index, "atomic.index")
       print("index saved successfully.")
-
+      print("Building entity map")
+      entity_map = build_entity_map(atomicChunk)
+      print("Saving entity map")
+      with open("entity.json", "w", encoding="utf-8") as f :
+            json.dump(entity_map, f, ensure_ascii=False)
+      print("Saved successfully")
