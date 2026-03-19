@@ -12,7 +12,7 @@ def extract_entity(query) :
       doc = nlp(query)
       for ent in doc.ents :
             if ent.label_ == "PERSON" :
-                  return ent.text
+                  return ent.text.lower()
       return None
 
 

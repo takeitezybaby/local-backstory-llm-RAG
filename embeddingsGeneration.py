@@ -37,7 +37,7 @@ def build_entity_map(chunks) :
             doc = nlp(chunk["text"])
             for ent in doc.ents :
                   if ent.label_ == "PERSON" :
-                        name = ent.text
+                        name = ent.text.lower()
                         entity_map.setdefault(name, []).append(idx)
       return entity_map
 
