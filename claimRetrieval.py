@@ -6,6 +6,18 @@ from claimExtraction import extract_atomic_claims
 
 k = 10
 
+
+#Post filtering to improve retrieval
+def filterByEntity(results, entity):
+      filtered = []
+      entity = entity.lower()
+      for r in results :
+            if entity in r["text"].lower() :
+                  filtered.append(r)
+      return filtered
+
+
+#claim retrieval pipeline
 def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
       claims = extract_atomic_claims(backstory)
       retrievals = []
@@ -14,9 +26,12 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
             claim_entity = extract_entity(claim)
             if claim_entity and claim_entity in entity_index :
                   result = subset_search(claim,entity_index[claim_entity],faiss_index, metadata)
+                  result = filterByEntity(result, claim_entity)
                   search_type = "Entity-restricted-seacrh"
             else :
                   result = global_search(claim,faiss_index, metadata)
+                  if claim_entity :
+                        result = filterByEntity(result, claim_entity)
                   search_type = "Global-search`"
             retrievals.append ({
                   "Claim" : claim,

@@ -13,6 +13,11 @@ def extract_entity(query) :
       for ent in doc.ents :
             if ent.label_ == "PERSON" :
                   return ent.text.lower()
+            
+      #Adding subject based entity detection to avoid unnecessary global serach
+      for token in doc :
+            if token.dep_ in {"nsubj", "nsubjpass"} :
+                  return token.text.lower()
       return None
 
 
