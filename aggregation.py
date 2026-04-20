@@ -36,7 +36,16 @@ def aggregate_results (llm_response) :
             else :
                   verdict = "NO CONTRADICTION, BUT NOT SUPPORTED"
       
-      return verdict
+      return {
+            "Final Verdict" : verdict,
+            "Normalized Score" : normalized_score,
+            "Breakdown" : {
+                  "Supporting claims" : support,
+                  "Contradicting claims" : contradict,
+                  "Not Mentioned claims" :not_mentioned,
+                  "Total claims" : total_length
+            }
+      }
 
 
 if __name__ == '__main__' :
@@ -48,5 +57,11 @@ if __name__ == '__main__' :
             if backstory in "eE" :
                   print("Exiting...")
                   break
-            verify_claim(backstory, atomicChunks,faiss_index, entity_index)
-            
+            llm_verification = verify_claim(backstory, atomicChunks,faiss_index, entity_index)
+            aggregated = aggregate_results(llm_verification)
+            print("-"*10+" LLM RESPONSE "+"-"*10)
+            for response in llm_verification :
+                  print(f"Claim:{response["Claim"]}\nResult:{response["Verification_result"]}")
+                  print("-"*40)
+            print("-"*10+" AGGREGATE RESULT "+"-"*10)
+            print(aggregated)
