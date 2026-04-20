@@ -64,4 +64,4 @@ if __name__ == '__main__' :
                   print(f"Claim:{response["Claim"]}\nResult:{response["Verification_result"]}")
                   print("-"*40)
             print("-"*10+" AGGREGATE RESULT "+"-"*10)
-            print(aggregated)
+            print(f"Final Verdict:{aggregated["Final Verdict"]}\nFinal Score:{aggregated["Normalized Score"]}\n{aggregated["Breakdown"]}")
