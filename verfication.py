@@ -14,7 +14,8 @@ def generate_response (prompt) :
             "prompt" : prompt,
             "stream" : False,
             "options" : {
-                   "num_ctx" : Tokens
+                   "num_ctx" : Tokens,
+                   "temperature" : 0.2
             }
       })
       response = response.json()["response"]
