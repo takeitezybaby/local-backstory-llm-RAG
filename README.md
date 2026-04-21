@@ -16,46 +16,94 @@ The system decomposes a backstory into atomic claims, retrieves relevant evidenc
 
 ---
 
+## Repository
+
+https://github.com/takeitezybaby/local-backstory-llm-RAG
+
+---
+
 ## Pipeline Overview
 
 ```mermaid
 flowchart TD
-    A[User Backstory Input] --> B[Stage 6: Claim Extraction]
-    B --> C[Stage 7: Retrieval]
-    C --> D[Stage 8: Claim Verification]
-    D --> E[Stage 9: Aggregation]
-    E --> F[Stage 10: Explanation]
+    A[Stage 1: Data Ingestion] --> B[Stage 2: Cleaning & Normalization]
+    B --> C[Stage 3: Chapter Segmentation]
+    C --> D[Stage 4: Scenic Chunking]
+    D --> E[Stage 5: Atomic Chunking + Indexing]
+    E --> F[Stage 6: Claim Extraction]
+    F --> G[Stage 7: Retrieval]
+    G --> H[Stage 8: Verification]
+    H --> I[Stage 9: Aggregation]
+    I --> J[Stage 10: Explanation]
 
-    C -->|FAISS + Entity Index| G[(Vector DB)]
+    G -->|FAISS + Entity Index| K[(Vector DB)]
 ```
 
 ---
 
-## Detailed Pipeline
+## Full Pipeline
+
+### Stage 1 — Data Ingestion
+
+* Raw book text is converted into structured JSON format
+* Each book is stored with metadata
+
+---
+
+### Stage 2 — Text Cleaning and Normalization
+
+* Unicode normalization
+* Fix encoding issues using `ftfy`
+* Remove structural inconsistencies
+
+---
+
+### Stage 3 — Chapter Segmentation
+
+* Regex-based chapter detection
+* Handles Roman numerals and numeric formats
+* Filters out index/table-of-contents noise
+
+---
+
+### Stage 4 — Scenic Chunking
+
+* Paragraph grouping into chunks
+* Maintains narrative continuity
+* Applies word limits for chunk size
+
+---
+
+### Stage 5 — Atomic Chunking and Indexing
+
+* Converts scenic chunks into factual atomic chunks
+* Applies pronoun resolution and subject carry-over
+* Generates embeddings using Nomic
+* Builds FAISS vector index
+* Creates entity-to-chunk mapping
+
+---
 
 ### Stage 6 — Claim Extraction
 
-* Sentence splitting
-* Clause decomposition
-* Pronoun resolution
-* Subject/entity carry-over
-* Produces atomic claims
+* Splits backstory into atomic claims
+* Resolves pronouns
+* Maintains subject/entity consistency
 
 ---
 
 ### Stage 7 — Retrieval
 
-* Extract entity from each claim
-* Perform entity-restricted search when possible
-* Fallback to global semantic search
-* Apply entity-level filtering to remove noise
+* Entity-based retrieval when possible
+* Global semantic fallback
+* Post-filtering ensures entity consistency
 
 ---
 
 ### Stage 8 — Claim Verification
 
-* Uses an LLM (Mistral via Ollama)
-* Classifies each claim as:
+* Uses Mistral (via Ollama)
+* Classifies claims as:
 
   * SUPPORT
   * CONTRADICT
@@ -75,9 +123,9 @@ Decision logic:
 
 ### Stage 10 — Explanation
 
-* Uses deterministic outputs from previous stages
-* Generates a structured explanation using an LLM
-* Provides suggestions to improve the backstory
+* Uses deterministic results
+* Generates structured explanation via LLM
+* Suggests improvements
 
 ---
 
@@ -128,37 +176,81 @@ Claim 2: Ayrton killed the royals (VERDICT: NOT_MENTIONED)
 
 ---
 
-## Tech Stack
+## Setup and Installation
 
-* Python
-* spaCy (NLP processing)
-* FAISS (vector similarity search)
-* Ollama (LLM inference)
-* Nomic embeddings
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/takeitezybaby/local-backstory-llm-RAG.git
+cd local-backstory-llm-RAG
+```
 
 ---
 
-## Project Structure
+### 2. Create virtual environment
 
+```bash
+python -m venv .venv
+source .venv/bin/activate      # Linux / Mac
+.venv\Scripts\activate         # Windows
 ```
-.
-├── claimExtraction.py
-├── claimRetrieval.py
-├── verification.py
-├── aggregation.py
-├── explanation_llm.py
-├── atomicChunks.json
-├── entity.json
-├── atomic.index
-└── README.md
+
+---
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
 ```
+
+---
+
+### 4. Install spaCy model
+
+```bash
+python -m spacy download en_core_web_sm
+```
+
+---
+
+### 5. Install and run Ollama
+
+Download from: https://ollama.com
+
+Pull models:
+
+```bash
+ollama pull mistral:instruct
+ollama pull mistral:7b
+```
+
+---
+
+### 6. Run the pipeline
+
+```bash
+run_pipeline.bat
+```
+
+Note: The current execution script is a `.bat` file, so the project is **currently supported on Windows only**.
+Linux/Mac support can be added by creating an equivalent `.sh` script.
+
+---
+
+## Tech Stack
+
+* Python
+* spaCy
+* FAISS
+* Ollama
+* Nomic Embeddings
 
 ---
 
 ## Key Design Decisions
 
-* Deterministic reasoning is used for correctness and consistency
-* LLMs are used only for explanation, not decision-making
+* Deterministic reasoning ensures correctness
+* LLM used only for explanation, not decision-making
 * Entity-grounded retrieval prevents semantic drift
 * Claim-level validation enables fine-grained reasoning
 
@@ -176,7 +268,27 @@ Claim 2: Ayrton killed the royals (VERDICT: NOT_MENTIONED)
 
 ## Conclusion
 
-This project demonstrates a complete RAG pipeline with structured reasoning, moving beyond simple retrieval to claim-level validation and explainability.
+This project implements a complete, end-to-end RAG pipeline that goes beyond traditional retrieval systems by incorporating structured reasoning and explainability.
 
----
+Instead of relying solely on semantic similarity, the system:
 
+* Breaks user input into atomic claims
+* Grounds retrieval using entity-aware filtering
+* Verifies each claim independently using an LLM
+* Aggregates results using deterministic logic
+* Generates human-readable explanations
+
+This hybrid design ensures both accuracy and interpretability, where:
+
+* Deterministic components guarantee reliability
+* LLM components enhance usability and clarity
+
+The system highlights a practical approach to building trustworthy AI pipelines, where LLMs are used as reasoning assistants rather than decision-makers.
+
+While currently optimized for a single-book setup and Windows execution, the architecture is modular and can be extended to:
+
+* Multi-book or multi-domain knowledge bases
+* More advanced coreference and entity resolution
+* Interactive interfaces or APIs
+
+Overall, this project demonstrates how combining retrieval, structured logic, and controlled LLM usage can produce a robust and explainable validation system.
