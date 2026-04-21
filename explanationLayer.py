@@ -22,7 +22,6 @@ def structure_claims(results) :
    Verification Result : {r["Verification_result"]}
    Evidence : {evidence_text}
 """
-      print(f"This is debugging\n{structured.strip()}\n\n")
       return structured.strip()
 
 #function to generate sttict and grounded prompt for the llm
