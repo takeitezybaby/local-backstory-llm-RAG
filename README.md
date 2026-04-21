@@ -180,6 +180,3 @@ This project demonstrates a complete RAG pipeline with structured reasoning, mov
 
 ---
 
-## Author
-
-Yash Chawla
