@@ -3,6 +3,8 @@ import json
 import numpy as np
 import spacy
 from embeddingsGeneration import createEmbeddings, normalize, loadChunks
+import os
+
 k =15
 nlp = spacy.load("en_core_web_sm")
 
@@ -79,9 +81,9 @@ def subset_search (query, entity_index,  faiss_index, metadata) :
 
 
 if __name__ == '__main__' :
-      index = faiss.read_index("atomic.index")
-      atomicChunk = loadChunks("atomicChunks.json")
-      entity_index = loadEntityIndex("entity.json")
+      index = faiss.read_index(os.path.join("Data", "atomic.index"))
+      atomicChunk = loadChunks(os.path.join("Data", "atomicChunks.json"))
+      entity_index = loadEntityIndex(os.path.join("Data", "entity.json"))
       while(True) :
             query =  input("Enter a backstory claim (e or E to exit) :\n")
             if query in "eE" :

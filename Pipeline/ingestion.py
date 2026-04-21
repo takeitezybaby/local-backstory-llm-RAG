@@ -8,11 +8,11 @@ def read_text(file_path) :
       return text
 
 if __name__ == '__main__' :
-      Books = os.listdir("Books")
-      text = [] 
+      Books = os.listdir(os.path.join("Data", "Books"))
+      text = []
       for i,book in enumerate(Books) :
-            path = os.path.join("Books", book)
+            path = os.path.join(os.path.join("Data", "Books"), book)
             Book_Number = i+1
             text.append({"Book Number" : Book_Number, "Content" : (read_text(path))})
-      with open("text.json", "w") as f :
+      with open(os.path.join("Data", "text.json"), "w") as f :
             json.dump(text,f)

@@ -96,10 +96,10 @@ def full_pipeline(json_path) :
       return final_chunks
 
 if __name__ == "__main__" :
-      chunks = full_pipeline("text.json")
+      chunks = full_pipeline(os.path.join("Data", "text.json"))
       # print("Total chunks:", len(chunks))
       # print("\nSample chunk:\n")
       # print(chunks[0]["Chapter"])
       # print(chunks[0]["text"][:1000]) 
-      with open("chunks.json", "w", encoding="utf-8") as f :
+      with open(os.path.join("Data", "chunks.json"), "w", encoding="utf-8") as f :
             json.dump(chunks,f, ensure_ascii=False, indent=2)

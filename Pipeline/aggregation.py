@@ -1,6 +1,7 @@
 from verfication import verify_claim
 from claimRetrieval import claim_retrieval, loadEntityIndex, loadChunks
 import faiss
+import os
 
 """
 Weights being used : 
@@ -49,9 +50,9 @@ def aggregate_results (llm_response) :
 
 
 if __name__ == '__main__' :
-      atomicChunks = loadChunks("atomicChunks.json")
-      entity_index = loadEntityIndex("entity.json")
-      faiss_index = faiss.read_index("atomic.index")
+      atomicChunks = loadChunks(os.path.join("Data", "atomicChunks.json"))
+      entity_index = loadEntityIndex(os.path.join("Data", "entity.json"))
+      faiss_index = faiss.read_index(os.path.join("Data", "atomic.index"))
       while(True) :
             backstory = input("Enter backstory (e or E to exit) :\n")
             if backstory in "eE" :

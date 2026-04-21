@@ -3,6 +3,7 @@ from aggregation import aggregate_results
 from verfication import verify_claim
 import requests
 import faiss
+import os
 
 API = "http://localhost:11434/api/generate"
 tokens = 8092
@@ -76,9 +77,9 @@ def llm_call(prompt) :
 
 
 if __name__ == '__main__' :
-      atomicChunks = loadChunks("atomicChunks.json")
-      entity_index = loadEntityIndex("entity.json")
-      faiss_index = faiss.read_index("atomic.index")
+      atomicChunks = loadChunks(os.path.join("Data", "atomicChunks.json"))
+      entity_index = loadEntityIndex(os.path.join("Data", "entity.json"))
+      faiss_index = faiss.read_index(os.path.join("Data", "atomic.index"))
       while(True) :
             backstory = input("Enter backstory (e or E to exit) :\n")
             if backstory in "eE" :

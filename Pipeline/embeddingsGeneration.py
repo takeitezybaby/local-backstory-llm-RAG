@@ -2,6 +2,7 @@ import requests
 import json
 import numpy as np
 import faiss
+import os
 import spacy
 
 k=10
@@ -56,7 +57,7 @@ def vectorIndex (embeddings) :
 
 if __name__ == '__main__' :
       print("Loading Chunks")
-      atomicChunk = loadChunks("atomicChunks.json")
+      atomicChunk = loadChunks(os.path.join("Data", "atomicChunks.json"))
       print("Chunk loading successfull")
       texts = [metadata["text"] for metadata in atomicChunk]
       print(f"Total Chunks : {len(atomicChunk)}\n")
@@ -67,11 +68,11 @@ if __name__ == '__main__' :
       print(f"Embedding shape : {embeddings.shape}")
       embeddings = normalize(embeddings)
       index = vectorIndex(embeddings)
-      faiss.write_index(index, "atomic.index")
+      faiss.write_index(index, os.path.join("Data", "atomic.index"))
       print("index saved successfully.")
       print("Building entity map")
       entity_map = build_entity_map(atomicChunk)
       print("Saving entity map")
-      with open("entity.json", "w", encoding="utf-8") as f :
+      with open(os.path.join("Data", "entity.json"), "w", encoding="utf-8") as f :
             json.dump(entity_map, f, ensure_ascii=False)
       print("Saved successfully")

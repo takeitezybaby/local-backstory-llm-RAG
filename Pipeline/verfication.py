@@ -1,6 +1,7 @@
 import json
 import requests
 import faiss
+import os
 from claimRetrieval import claim_retrieval, loadEntityIndex, loadChunks
 
 API = "http://localhost:11434/api/generate"
@@ -72,9 +73,9 @@ def verify_claim (backstory, metadata, faiss_index, entity_index) :
       return Verification
 
 if __name__ == '__main__' :
-      metadata = loadChunks("atomicChunks.json")
-      entity_index = loadEntityIndex("entity.json")
-      faiss_index =  faiss.read_index("atomic.index")
+      metadata = loadChunks(os.path.join("Data", "atomicChunks.json"))
+      entity_index = loadEntityIndex(os.path.join("Data", "entity.json"))
+      faiss_index =  faiss.read_index(os.path.join("Data", "atomic.index"))
       while (True) :
             query = input("Enter Backstory (e or E to exit) :\n")
             if query in "eE" :

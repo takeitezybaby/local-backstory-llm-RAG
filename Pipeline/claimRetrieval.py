@@ -3,6 +3,7 @@ import faiss
 from embeddingsGeneration import createEmbeddings, loadChunks, normalize
 from querySearch import extract_entity, loadEntityIndex, global_search, subset_search
 from claimExtraction import extract_atomic_claims
+import os
 
 k = 10
 
@@ -42,9 +43,9 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
       return retrievals
 
 if __name__ == "__main__" :
-      chunks = loadChunks("atomicChunks.json")
-      faiss_index = faiss.read_index("atomic.index")
-      entity_index = loadEntityIndex("entity.json")
+      chunks = loadChunks(os.path.join("Data", "atomicChunks.json"))
+      faiss_index = faiss.read_index(os.path.join("Data", "atomic.index"))
+      entity_index = loadEntityIndex(os.path.join("Data", "entity.json"))
       while True :
             query = input("Enter backstory (e or E to exit) :")
             if query in "eE" :
