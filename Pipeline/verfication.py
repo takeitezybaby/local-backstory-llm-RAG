@@ -27,27 +27,24 @@ def generate_response (prompt) :
 def prompt_generation (claim, evidence_list, entity) :
       Evidence = "\n".join(
             [
-                  f"Evidence {1+1} :\n {evid["text"]}" for i,evid in enumerate(evidence_list)
+                  f"Evidence {i+1} :\n {evid['text']}" for i,evid in enumerate(evidence_list)
             ]
       )
       prompt  = f"""
-      You're verifying a factual claim against evidence from  a novel, Verify the claim strictly
+      You are verifying a factual backstory claim against source evidence from a novel.
       Claim : {claim}
       Entity : {entity}
-      Evidence : {Evidence}
+      Evidence :
+      {Evidence}
 
       INSTRUCTIONS:
-      1. The evidence must explicitly mention both :
-        - The SAME character/entity
-        - The SAME action or fact as the claim
-      2. If character matches but the action is not supported, ANSWER "NOT MENTIONED"
-      3. Do not assume
-      4. Do not guess based on the similar situations
-      
-      Does the evidence SUPPORT, CONTRADICT or NOT MENTIONED in the claim?
-      ANSWER IN ONE WORD ONLY : SUPPORT OR CONTRADICT OR NOT MENTIONED
-      DO NOT EXPLAIN
-      ONLY USE ONE WORD ANSWER
+      - Classify the claim as one of: SUPPORT, CONTRADICT, or NOT MENTIONED.
+      1. SUPPORT: The evidence explicitly confirms both the character and the specific fact or action in the claim.
+      2. CONTRADICT: The evidence explicitly refutes the claim or states conflicting facts (e.g. wrong occupation, wrong relative, wrong outcome, or different event).
+      3. NOT MENTIONED: The evidence provided does not contain sufficient details to either confirm or contradict the claim.
+
+      ANSWER IN ONE WORD ONLY: SUPPORT, CONTRADICT, or NOT MENTIONED.
+      DO NOT EXPLAIN.
       """
       return prompt
 

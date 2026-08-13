@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "book": "In search of the castaways.txt",
+    "user_input": "Lord Edward Glenarvan is a Scottish peer sitting in the House of Lords and owner of the yacht Duncan.",
+    "entity": "lord glenarvan",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "The yacht was called the Duncan, and belonged to Lord Glenarvan, one of the sixteen Scottish peers sitting in the House of Lords, and also a most distinguished member of the Royal Thames Yacht Club."
+  },
+  {
+    "id": 2,
+    "book": "In search of the castaways.txt",
+    "user_input": "Tom Austin is the mate on board the Duncan who noticed a champagne bottle inside the stomach of the captured shark.",
+    "entity": "tom austin",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "Tom Austin, the mate, displayed the bottle found inside the shark's stomach to Lord Glenarvan and the crew."
+  },
+  {
+    "id": 3,
+    "book": "In search of the castaways.txt",
+    "user_input": "Jacques Paganel is a French geographer who accidentally boarded the Duncan believing it was a steamer bound for India.",
+    "entity": "jacques paganel",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "Jacques Paganel, the secretary of the Geographical Society of Paris, mistakenly boarded Lord Glenarvan's yacht Duncan instead of his intended ship to India."
+  },
+  {
+    "id": 4,
+    "book": "In search of the castaways.txt",
+    "user_input": "Captain Harry Grant was the commander of the brig Britannia which suffered shipwreck along the 37th parallel south.",
+    "entity": "captain grant",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "Captain Harry Grant was the commander of the brig Britannia, lost at sea on latitude 37 degrees south."
+  },
+  {
+    "id": 5,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Edmond Dantès arrived in Marseilles on February 24, 1815, aboard the three-masted ship the Pharaon.",
+    "entity": "edmond dantès",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "On the 24th of February, 1815, the look-out at Notre-Dame de la Garde signalled the three-master, the Pharaon."
+  },
+  {
+    "id": 6,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Gérard de Villefort was the deputy crown prosecutor in Marseilles who ordered Dantès' imprisonment to protect his own father, Noirtier.",
+    "entity": "gérard de villefort",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "Villefort, the deputy crown prosecutor, burned the Bonapartist letter addressed to his father Noirtier and imprisoned Dantès in the Château d'If."
+  },
+  {
+    "id": 7,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Abbé Faria was an Italian priest imprisoned in the Château d'If who revealed the location of the hidden treasure on the island of Monte Cristo to Dantès.",
+    "entity": "abbé faria",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "Abbé Faria, an Italian priest, became Dantès' companion in the Château d'If and bequeathed him the secret treasure of Monte Cristo."
+  },
+  {
+    "id": 8,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Danglars was the purser of the Pharaon who harbored jealousy toward Edmond Dantès' promotion to captain.",
+    "entity": "danglars",
+    "ground_truth_verdict": "SUPPORT",
+    "reference": "Danglars was the purser on the Pharaon who resented Dantès and engineered the conspiracy letter."
+  },
+  {
+    "id": 9,
+    "book": "In search of the castaways.txt",
+    "user_input": "Major MacNabb is the captain of the yacht Duncan who hooked and landed the hammerhead shark in the North Channel.",
+    "entity": "major macnabb",
+    "ground_truth_verdict": "CONTRADICT",
+    "reference": "John Mangles is the captain of the Duncan. Major MacNabb is Lord Glenarvan's cousin."
+  },
+  {
+    "id": 10,
+    "book": "In search of the castaways.txt",
+    "user_input": "Ayrton was the loyal first mate of Lord Glenarvan who originally built the yacht Duncan in Glasgow.",
+    "entity": "ayrton",
+    "ground_truth_verdict": "CONTRADICT",
+    "reference": "Ayrton was the former quartermaster of the Britannia who turned convict and pirate leader in Australia."
+  },
+  {
+    "id": 11,
+    "book": "In search of the castaways.txt",
+    "user_input": "Mary Grant is the daughter of Major MacNabb who was raised in Paris by Jacques Paganel.",
+    "entity": "mary grant",
+    "ground_truth_verdict": "CONTRADICT",
+    "reference": "Mary Grant is the daughter of Captain Harry Grant, and she lived in Scotland."
+  },
+  {
+    "id": 12,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Captain Leclère commanded the Pharaon safely into the harbor of Marseilles before handing his duties over to Danglars.",
+    "entity": "captain leclère",
+    "ground_truth_verdict": "CONTRADICT",
+    "reference": "Captain Leclère died of brain fever during the voyage near Elba; Dantès brought the ship home."
+  },
+  {
+    "id": 13,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Fernand Mondego was a wealthy merchant from Paris who hired Edmond Dantès to navigate the Pharaon.",
+    "entity": "fernand mondego",
+    "ground_truth_verdict": "CONTRADICT",
+    "reference": "Fernand was a Catalan fisherman in love with Mercédès who plotted against Dantès."
+  },
+  {
+    "id": 14,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Mercédès married Edmond Dantès immediately after the Pharaon docked in Marseilles on February 24, 1815.",
+    "entity": "mercédès",
+    "ground_truth_verdict": "CONTRADICT",
+    "reference": "Dantès was arrested during their betrothal feast before any marriage took place."
+  },
+  {
+    "id": 15,
+    "book": "In search of the castaways.txt",
+    "user_input": "Lord Glenarvan studied marine biology at Oxford University before embarking on his naval expeditions.",
+    "entity": "lord glenarvan",
+    "ground_truth_verdict": "NOT MENTIONED",
+    "reference": "No mention of Lord Glenarvan studying marine biology at Oxford University."
+  },
+  {
+    "id": 16,
+    "book": "In search of the castaways.txt",
+    "user_input": "Lady Helena served as a military nurse in the Crimean War before marrying Lord Glenarvan.",
+    "entity": "lady helena",
+    "ground_truth_verdict": "NOT MENTIONED",
+    "reference": "No mention of Lady Helena serving as a nurse in the Crimean War."
+  },
+  {
+    "id": 17,
+    "book": "In search of the castaways.txt",
+    "user_input": "Thalcave visited London in 1855 to work as an interpreter for the Royal Geographical Society.",
+    "entity": "thalcave",
+    "ground_truth_verdict": "NOT MENTIONED",
+    "reference": "No mention of Thalcave traveling to London or working for the Royal Geographical Society."
+  },
+  {
+    "id": 18,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "M. Morrel previously served as a secret diplomat for the King of Spain in Madrid before founding his shipping business.",
+    "entity": "m. morrel",
+    "ground_truth_verdict": "NOT MENTIONED",
+    "reference": "No mention of M. Morrel acting as a secret diplomat in Madrid."
+  },
+  {
+    "id": 19,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Gérard de Villefort wrote a published memoir detailing his childhood experiences during the French Revolution.",
+    "entity": "gérard de villefort",
+    "ground_truth_verdict": "NOT MENTIONED",
+    "reference": "No mention of Villefort publishing a childhood memoir about the French Revolution."
+  },
+  {
+    "id": 20,
+    "book": "The Count of Monte Cristo.txt",
+    "user_input": "Haydée attended school in Vienna where she learned classical Italian literature and harp.",
+    "entity": "haydée",
+    "ground_truth_verdict": "NOT MENTIONED",
+    "reference": "No mention of Haydée attending school in Vienna."
+  }
+]

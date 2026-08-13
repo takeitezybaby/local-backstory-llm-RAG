@@ -11,11 +11,12 @@ k = 10
 #Post filtering to improve retrieval
 def filterByEntity(results, entity):
       filtered = []
-      entity = entity.lower()
+      entity_tokens = [t for t in entity.lower().split() if len(t) > 2]
       for r in results :
-            if entity in r["text"].lower() :
+            text_lower = r["text"].lower()
+            if any(token in text_lower for token in entity_tokens):
                   filtered.append(r)
-      return filtered
+      return filtered if filtered else results
 
 
 #claim retrieval pipeline

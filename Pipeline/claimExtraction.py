@@ -10,7 +10,7 @@ def compound_clauses (sentence) :
       doc = nlp(sentence)
       verbs = [ token for token in doc if token.pos_ in {"VERB", "AUX"} and token.dep_ == "ROOT" or token.dep_ == "conj"]
       if len(verbs)<2:
-            return sentence
+            return [sentence]
       
       clauses = []
       current = []
