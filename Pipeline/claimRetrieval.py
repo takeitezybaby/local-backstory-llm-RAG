@@ -24,23 +24,22 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
       claims = extract_atomic_claims(backstory)
       retrievals = []
       for claim in claims :
-            claim_entity = extract_entity(claim)
+            claim_entity = extract_entity(claim, entity_index)
             matched_key = find_entity_in_index(claim_entity, entity_index)
             global_results = global_search(claim, faiss_index, metadata)
             
             if matched_key and matched_key in entity_index :
                   entity_results = subset_search(claim, entity_index[matched_key], faiss_index, metadata)
                   
-                  # Interleave entity-focused and global evidence without duplicates
                   seen_texts = set()
                   combined = []
-                  for r in entity_results + global_results :
+                  for r in global_results[:10] + entity_results[:5] :
                         t = r["text"].strip()
                         if t not in seen_texts :
                               seen_texts.add(t)
                               combined.append(r)
                   result = combined[:15]
-                  search_type = "Hybrid (Entity + Global)"
+                  search_type = f"Hybrid (Global(10) + Entity '{matched_key}'(5))"
             else :
                   result = global_results[:15]
                   search_type = "Global-search"

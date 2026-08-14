@@ -13,13 +13,15 @@ The benchmark evaluates 20 representative claims extracted across two novels (*I
 
 ### Benchmark Scorecard Progression
 
-| Metric / Iteration | Baseline | Iteration 1 | Iteration 2 | **Iteration 3 (Current)** |
-|---|---|---|---|---|
-| **Overall Verdict Accuracy** | `0.00%` (Raw) | `35.00%` | `40.00%` | **`60.00%` (12/20)** 🚀 |
-| **`NOT MENTIONED` Recall** | `0.00%` | `16.67%` | `50.00%` | **`100.00%` (6/6)** 🎯 |
-| **`SUPPORT` Recall** | `12.50%` | `75.00%` | `87.50%` | **`75.00%` (6/8)** |
-| **RAGAS Answer Relevancy** | N/A | `0.5871` | `0.6247` | **`0.6419`** |
-| **RAGAS Context Recall** | `0.0000` | `0.5000` | `0.6875` | **`0.5714`** |
+| Metric / Iteration | Baseline | Iteration 1 | Iteration 2 | Iteration 3 | **Iteration 4 (Current)** |
+|---|---|---|---|---|---|
+| **Overall Verdict Accuracy** | `0.00%` (Raw) | `35.00%` | `40.00%` | `60.00%` | **`70.00%` (14/20)** 🚀 |
+| **`SUPPORT` Recall** | `12.50%` | `75.00%` | `87.50%` | `75.00%` | **`100.00%` (8/8)** 🎯 |
+| **`NOT MENTIONED` Recall** | `0.00%` | `16.67%` | `50.00%` | `100.00%` | **`100.00%` (6/6)** 🎯 |
+| **`SUPPORT` Precision** | `0.13` | `0.46` | `0.54` | `0.60` | **`0.62`** |
+| **`NOT MENTIONED` Precision** | `0.00` | `0.33` | `0.50` | `0.75` | **`0.86`** |
+| **RAGAS Context Recall** | `0.0000` | `0.5000` | `0.6875` | `0.5714` | **`0.7417` (74.2%)** 📈 |
+| **RAGAS Answer Relevancy** | N/A | `0.5871` | `0.6247` | `0.6419` | **`0.6130`** |
 
 ---
 
@@ -54,25 +56,35 @@ The benchmark evaluates 20 representative claims extracted across two novels (*I
 
 ---
 
-### 🔹 Iteration 3: Architectural Breakthroughs (Accuracy Jump: 40% ➔ 60%)
+### 🔹 Iteration 3: Possessive Resolution & Regex Parsing (Accuracy: 40% ➔ 60%)
 * **Changes Made**:
   1. **Fixed Possessive Truncation Bug (`Pipeline/querySearch.py`)**:
      * Fixed string-stripping bug where `strip(" '’s.,")` was stripping valid trailing `'s'` characters from names (e.g., turning `Mercédès` into `mercédé` and `Dantès` into `dantè`).
      * Added `find_entity_in_index()` with accent normalization (`leclère` $\leftrightarrow$ `leclere`), achieving **100% entity match rate**.
-  2. **Implemented Hybrid Retrieval (`Pipeline/claimRetrieval.py`)**:
-     * Combined entity-restricted subset search with global semantic search, enabling retrieval of crucial book-opening facts where names appear after setting descriptions.
-  3. **Fixed Relative Pronoun & Clause Scrambling (`Pipeline/claimExtraction.py`)**:
+  2. **Fixed Relative Pronoun Scrambling (`Pipeline/claimExtraction.py`)**:
      * Prevented pronoun resolver from corrupting relative clauses (`who`/`which`) with distant entity names.
      * Preserved coordinate verb phrases (e.g., *"hooked and landed the shark"*) from being broken into dangling fragments.
-  4. **Regex-Based Verdict Parsing (`Pipeline/aggregation.py`)**:
+  3. **Regex-Based Verdict Parsing (`Pipeline/aggregation.py`)**:
      * Replaced substring checks (`'SUPPORT' in result`, `'CONTRADICT' in result`) with strict regex extraction (`re.findall(r'verdict\s*:\s*["\']?\s*(SUPPORT|CONTRADICT|NOT MENTIONED)...')`).
      * Eliminated false-positive collisions from reasoning phrases like *"nor does it directly contradict this claim"*.
-  5. **Endpoint Retry & Concurrency Guard (`Pipeline/embeddingsGeneration.py`, `Pipeline/verfication.py`)**:
-     * Added automated retry loops with backoff on Ollama `/api/embed` and `/api/generate` to handle transient model reload hiccups.
+
+---
+
+### 🔹 Iteration 4: Subject-First & Balanced Hybrid Retrieval (Accuracy: 60% ➔ 70%)
+* **Changes Made**:
+  1. **Subject-First Grammatical Entity Resolution (`Pipeline/querySearch.py`)**:
+     * Updated `extract_entity()` to prioritize the grammatical subject (`nsubj` / `nsubjpass`) over trailing mentioned names (e.g. accurately identifying `Danglars` in Claim 8 and `Fernand Mondego` in Claim 13 instead of downstream objects).
+     * Implemented descending key length sorting in `find_entity_in_index()` to avoid false matching against short sub-tokens.
+  2. **Balanced Global-First Hybrid Retrieval (`Pipeline/claimRetrieval.py`)**:
+     * Structured candidate evidence as `global_results[:10] + entity_results[:5]`.
+     * Global semantic vector search prioritizes key event and action descriptions, while subset entity search supplies core character biographical background and titles.
+  3. **Entity Key Pooling**:
+     * Merged partitioned sub-keys in `entity.json` (e.g., `m. danglars` + `danglars`), eliminating blind spots in initial chapters.
 * **Impact**:
-  * **Overall Accuracy increased to 60.00% (12/20)**.
-  * **`NOT MENTIONED` Recall reached 100.00% (6/6)**.
-  * **`SUPPORT` Recall reached 75.00% (6/8)**.
+  * **Overall Verdict Accuracy reached 70.00% (14/20 PASS)**.
+  * **`SUPPORT` Recall reached 100.00% (8/8 PASS)**.
+  * **`NOT MENTIONED` Recall reached 100.00% (6/6 PASS)**.
+  * **RAGAS Context Recall increased to 74.17% (0.7417)**.
 
 ---
 

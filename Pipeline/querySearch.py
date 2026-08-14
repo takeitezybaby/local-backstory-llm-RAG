@@ -15,19 +15,6 @@ import unicodedata
 def strip_accents(s):
     return "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
 
-#entity extraction from query
-def extract_entity(query) :
-      doc = nlp(query)
-      for ent in doc.ents :
-            if ent.label_ == "PERSON" :
-                  return re.sub(r"['’]s?\b", "", ent.text).strip(" .,!?:;\"'").lower()
-            
-      #Adding subject based entity detection to avoid unnecessary global search
-      for token in doc :
-            if token.dep_ in {"nsubj", "nsubjpass"} :
-                  return re.sub(r"['’]s?\b", "", token.text).strip(" .,!?:;\"'").lower()
-      return None
-
 def find_entity_in_index(raw_entity, index):
     if not raw_entity or not index:
         return None
@@ -37,7 +24,11 @@ def find_entity_in_index(raw_entity, index):
     unaccented = strip_accents(cleaned)
     if unaccented in index:
         return unaccented
-    for key in index.keys():
+        
+    sorted_keys = sorted(index.keys(), key=lambda x: len(x), reverse=True)
+    for key in sorted_keys:
+        if len(key) <= 3:
+            continue
         key_unacc = strip_accents(key)
         if cleaned == key or unaccented == key_unacc:
             return key
@@ -46,6 +37,38 @@ def find_entity_in_index(raw_entity, index):
         if unaccented in key_unacc or key_unacc in unaccented:
             return key
     return None
+
+#entity extraction from query prioritizing subject
+def extract_entity(query, index=None) :
+      doc = nlp(query)
+      if index:
+            for token in doc:
+                  if token.dep_ in {"nsubj", "nsubjpass"}:
+                        subj_text = " ".join([t.text for t in token.subtree if not t.is_punct])
+                        k = find_entity_in_index(subj_text, index)
+                        if k:
+                              return k
+                        k = find_entity_in_index(token.text, index)
+                        if k:
+                              return k
+            for ent in doc.ents:
+                  if ent.label_ == "PERSON":
+                        k = find_entity_in_index(ent.text, index)
+                        if k:
+                              return k
+            for ent in doc.ents:
+                  k = find_entity_in_index(ent.text, index)
+                  if k:
+                              return k
+
+      for ent in doc.ents :
+            if ent.label_ == "PERSON" :
+                  return re.sub(r"['’]s?\b", "", ent.text).strip(" .,!?:;\"'").lower()
+            
+      for token in doc :
+            if token.dep_ in {"nsubj", "nsubjpass"} :
+                  return re.sub(r"['’]s?\b", "", token.text).strip(" .,!?:;\"'").lower()
+      return None
 
 
 #load entity index
