@@ -5,65 +5,75 @@ from atomicChunking import split_sentences
 nlp = spacy.load("en_core_web_sm")
 
 
-#extracting clauses (he escaped and drowned -> he escaped, drowned)
+#extracting clauses (he escaped and he drowned -> he escaped, he drowned)
 def compound_clauses (sentence) :
       doc = nlp(sentence)
-      verbs = [ token for token in doc if token.pos_ in {"VERB", "AUX"} and token.dep_ == "ROOT" or token.dep_ == "conj"]
-      if len(verbs)<2:
+      has_compound = False
+      for token in doc :
+            if token.dep_ == "cc" and token.text.lower() in {"and", "but"} :
+                  right_tokens = list(doc[token.i+1:token.i+6])
+                  if any(t.dep_ in {"nsubj", "nsubjpass"} for t in right_tokens) :
+                        has_compound = True
+                        
+      if not has_compound :
             return [sentence]
-      
+            
       clauses = []
       current = []
       for token in doc :
-            if token.dep_ == "cc" and token.text.lower() in {"and", "but"} :
-                  clauses.append(" ".join([text for text in current]).strip())
-                  current = []
+            if token.dep_ == "cc" and token.text.lower() in {"and", "but"} and any(t.dep_ in {"nsubj", "nsubjpass"} for t in doc[token.i+1:token.i+6]) :
+                  if current :
+                        clauses.append(" ".join(current).strip())
+                        current = []
             else :
                   current.append(token.text)
-
       if current :
-            clauses.append(" ".join([text for text in current]).strip())
-
-      return clauses
+            clauses.append(" ".join(current).strip())
+      return clauses if clauses else [sentence]
 
 
 #pronoun resolver (handles orphan claims too)
 def resolver(claims) :
       resolved = []
-      current_entity = None
+      main_subject = None
       
       for claim in claims :
             doc = nlp(claim)
-            has_subject = False
+            person_ents = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
+            if person_ents:
+                main_subject = person_ents[0]
+                
+            has_subject = any(token.dep_ in {"nsubj", "nsubjpass"} for token in doc)
+            
             tokens = []
-
             for token in doc :
-                  if token.dep_ in {"nsubj", "nsubjpass"} :
-                        has_subject = True
-            for ent in doc.ents :
-                  if ent.label_ == "PERSON" :
-                        current_entity = ent.text
-            for token in doc :
-                  if token.pos_ == "PRON" and token.dep_ in {"nsubj", "nsubjpass"} and current_entity :
-                        tokens.append(current_entity)
+                  # Only resolve cross-clause personal pronouns (he, she, they)
+                  if token.text.lower() in {"he", "she", "they"} and token.dep_ in {"nsubj", "nsubjpass"} and main_subject :
+                        tokens.append(main_subject)
                   else :
                         tokens.append(token.text)
+            
             resolved_claim = " ".join(tokens)
+            if not has_subject and main_subject:
+                has_verb = any(t.pos_ in {"VERB", "AUX"} for t in doc)
+                resolved_claim = f"{main_subject} is {resolved_claim}" if not has_verb else f"{main_subject} {resolved_claim}"
 
-            if not has_subject and current_entity :
-                  resolved_claim = current_entity + " " + resolved_claim
-
+            resolved_claim = (
+                resolved_claim.replace(" ,", ",")
+                .replace(" .", ".")
+                .replace(" '", "'")
+                .replace(" ?", "?")
+                .replace(" !", "!")
+            )
             resolved.append(resolved_claim.strip())
       return resolved
-
 
 
 #final claim verifier
 def is_valid_claim(claim):
       doc = nlp(claim)
-      has_subject = any(token.dep_ in {"nsubj", "nsubjpass"} for token in doc)
-      has_verb = any(token.pos_ in {"VERB", "AUX"} and token.dep_ in {"ROOT", 'conj'} for token in doc)
-      return has_subject and has_verb
+      has_verb = any(token.pos_ in {"VERB", "AUX"} for token in doc)
+      return len(doc) >= 3 and has_verb
 
 
 
@@ -76,9 +86,7 @@ def extract_atomic_claims(query) :
             atomic_claims.extend(compound_clauses(sent))
 
       atomic_claims = resolver(atomic_claims)
-
       atomic_claims = [c.strip() for c in atomic_claims if is_valid_claim(c)]
-
       return atomic_claims
 
 if __name__ == "__main__" :

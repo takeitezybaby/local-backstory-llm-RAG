@@ -10,17 +10,55 @@ Weights being used :
       3. CONTRADICTION = -2
 """
 
+import re
+
+def extract_single_verdict(raw_str):
+    if not isinstance(raw_str, str):
+        return "NOT MENTIONED"
+    
+    # 1. Look for explicit "Verdict: <LABEL>"
+    matches = re.findall(r'verdict\s*:\s*["\']?\s*(SUPPORT|CONTRADICT|NOT MENTIONED|INCOMPATIBLE|COMPATIBLE)', raw_str, re.IGNORECASE)
+    if matches:
+        last_match = matches[-1].upper()
+        if last_match in ["CONTRADICT", "INCOMPATIBLE"]:
+            return "CONTRADICT"
+        if last_match in ["SUPPORT", "COMPATIBLE"]:
+            return "SUPPORT"
+        if last_match in ["NOT MENTIONED"]:
+            return "NOT MENTIONED"
+
+    # 2. Strict exact line matching from bottom up
+    lines = [l.strip() for l in raw_str.strip().split("\n") if l.strip()]
+    for line in reversed(lines):
+        up = line.upper().strip(" '\"`.:;,")
+        if up in ["SUPPORT", "VERDICT: SUPPORT", "VERDICT:SUPPORT"]:
+            return "SUPPORT"
+        if up in ["CONTRADICT", "VERDICT: CONTRADICT", "VERDICT:CONTRADICT"]:
+            return "CONTRADICT"
+        if up in ["NOT MENTIONED", "VERDICT: NOT MENTIONED", "VERDICT:NOT MENTIONED"]:
+            return "NOT MENTIONED"
+
+    # 3. Fallback regex detection without negation
+    if re.search(r'\b(not\s+mentioned|unmentioned|not\s+supported)\b', raw_str, re.IGNORECASE):
+        return "NOT MENTIONED"
+    if re.search(r'\b(contradict|contradicts|contradiction|incompatible)\b', raw_str, re.IGNORECASE):
+        return "CONTRADICT"
+    if re.search(r'\b(support|supports|supported|compatible)\b', raw_str, re.IGNORECASE):
+        return "SUPPORT"
+
+    return "NOT MENTIONED"
+
 def aggregate_results (llm_response) :
       support = 0 
       contradict = 0
       not_mentioned = 0
       for response in llm_response :
-            result = response["Verification_result"].strip().upper()
-            if 'SUPPORT' in result :
-                  support += 1
-            elif 'CONTRADICT' in result : 
+            verdict = extract_single_verdict(response.get("Verification_result", ""))
+            if verdict == 'CONTRADICT':
                   contradict += 1
-            else :
+            elif verdict == 'SUPPORT':
+                  support += 1
+            else:
                   not_mentioned += 1
       total_length = len(llm_response)
       score = (1*support) + (-2 * contradict)
@@ -29,13 +67,10 @@ def aggregate_results (llm_response) :
       #DECISION LOGIC 
       if contradict > 0 : 
             verdict = "INCOMPATIBLE"
+      elif support > 0 :
+            verdict = "COMPATIBLE"
       else :
-            if normalized_score>0.75 :
-                  verdict = "COMPATIBLE"
-            elif 0.3<normalized_score<=0.75 :
-                  verdict = "PARTIALLY COMPATIBLE"
-            else :
-                  verdict = "NO CONTRADICTION, BUT NOT SUPPORTED"
+            verdict = "NO CONTRADICTION, BUT NOT SUPPORTED"
       
       return {
             "Final Verdict" : verdict,

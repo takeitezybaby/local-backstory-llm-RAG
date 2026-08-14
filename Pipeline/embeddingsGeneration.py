@@ -15,20 +15,24 @@ def loadChunks(path):
 
 
 #creating embeddings using nomic embed model
-def createEmbeddings(texts) :
-      embeddings = []
-      
-      response = requests.post (
-            "http://localhost:11434/api/embed",
-                  json= {
-                        "model" : "nomic-embed-text",
-                        "input" : texts
-                  }
-            )
-      response.raise_for_status()
-      embedding = response.json()["embeddings"]
-      embeddings.extend(embedding)
-      return embeddings
+def createEmbeddings(texts, max_retries=3) :
+      for attempt in range(max_retries) :
+            try :
+                  response = requests.post (
+                        "http://localhost:11434/api/embed",
+                        json= {
+                              "model" : "nomic-embed-text",
+                              "input" : texts
+                        },
+                        timeout=60
+                  )
+                  response.raise_for_status()
+                  return response.json()["embeddings"]
+            except Exception as e :
+                  if attempt == max_retries - 1 :
+                        raise e
+                  time.sleep(2)
+      return []
 
 #creating entity map 
 def build_entity_map(chunks) :

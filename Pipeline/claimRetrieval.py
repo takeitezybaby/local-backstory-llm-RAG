@@ -1,7 +1,7 @@
 import json
 import faiss
 from embeddingsGeneration import createEmbeddings, loadChunks, normalize
-from querySearch import extract_entity, loadEntityIndex, global_search, subset_search
+from querySearch import extract_entity, loadEntityIndex, global_search, subset_search, find_entity_in_index
 from claimExtraction import extract_atomic_claims
 import os
 
@@ -24,17 +24,27 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
       claims = extract_atomic_claims(backstory)
       retrievals = []
       for claim in claims :
-            search_type = None
             claim_entity = extract_entity(claim)
-            if claim_entity and claim_entity in entity_index :
-                  result = subset_search(claim,entity_index[claim_entity],faiss_index, metadata)
-                  result = filterByEntity(result, claim_entity)
-                  search_type = "Entity-restricted-seacrh"
+            matched_key = find_entity_in_index(claim_entity, entity_index)
+            global_results = global_search(claim, faiss_index, metadata)
+            
+            if matched_key and matched_key in entity_index :
+                  entity_results = subset_search(claim, entity_index[matched_key], faiss_index, metadata)
+                  
+                  # Interleave entity-focused and global evidence without duplicates
+                  seen_texts = set()
+                  combined = []
+                  for r in entity_results + global_results :
+                        t = r["text"].strip()
+                        if t not in seen_texts :
+                              seen_texts.add(t)
+                              combined.append(r)
+                  result = combined[:15]
+                  search_type = "Hybrid (Entity + Global)"
             else :
-                  result = global_search(claim,faiss_index, metadata)
-                  if claim_entity :
-                        result = filterByEntity(result, claim_entity)
-                  search_type = "Global-search`"
+                  result = global_results[:15]
+                  search_type = "Global-search"
+
             retrievals.append ({
                   "Claim" : claim,
                   "Entity" : claim_entity,

@@ -9,18 +9,43 @@ k =15
 nlp = spacy.load("en_core_web_sm")
 
 
+import re
+import unicodedata
+
+def strip_accents(s):
+    return "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
+
 #entity extraction from query
 def extract_entity(query) :
       doc = nlp(query)
       for ent in doc.ents :
             if ent.label_ == "PERSON" :
-                  return ent.text.lower().strip(" '’s.,")
+                  return re.sub(r"['’]s?\b", "", ent.text).strip(" .,!?:;\"'").lower()
             
       #Adding subject based entity detection to avoid unnecessary global search
       for token in doc :
             if token.dep_ in {"nsubj", "nsubjpass"} :
-                  return token.text.lower().strip(" '’s.,")
+                  return re.sub(r"['’]s?\b", "", token.text).strip(" .,!?:;\"'").lower()
       return None
+
+def find_entity_in_index(raw_entity, index):
+    if not raw_entity or not index:
+        return None
+    cleaned = re.sub(r"['’]s?\b", "", raw_entity).strip(" .,!?:;\"'").lower()
+    if cleaned in index:
+        return cleaned
+    unaccented = strip_accents(cleaned)
+    if unaccented in index:
+        return unaccented
+    for key in index.keys():
+        key_unacc = strip_accents(key)
+        if cleaned == key or unaccented == key_unacc:
+            return key
+        if cleaned in key or key in cleaned:
+            return key
+        if unaccented in key_unacc or key_unacc in unaccented:
+            return key
+    return None
 
 
 #load entity index

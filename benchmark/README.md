@@ -11,14 +11,15 @@ The benchmark evaluates 20 representative claims extracted across two novels (*I
 * **CONTRADICT (6 Claims)**: False claims containing contradictory details (wrong characters, wrong locations, inverted plot points).
 * **NOT MENTIONED (6 Claims)**: Plausible backstory claims unmentioned in the text.
 
-### Latest Scorecard Summary
+### Benchmark Scorecard Progression
 
-| Metric / Iteration | Baseline | Iteration 1 (Retrieval Fixes) | Iteration 2 (Prompt Fixes) | **Iteration 3 (Entity & Normalization)** |
+| Metric / Iteration | Baseline | Iteration 1 | Iteration 2 | **Iteration 3 (Current)** |
 |---|---|---|---|---|
+| **Overall Verdict Accuracy** | `0.00%` (Raw) | `35.00%` | `40.00%` | **`60.00%` (12/20)** 🚀 |
+| **`NOT MENTIONED` Recall** | `0.00%` | `16.67%` | `50.00%` | **`100.00%` (6/6)** 🎯 |
+| **`SUPPORT` Recall** | `12.50%` | `75.00%` | `87.50%` | **`75.00%` (6/8)** |
 | **RAGAS Answer Relevancy** | N/A | `0.5871` | `0.6247` | **`0.6419`** |
-| **`SUPPORT` Verdict Recall** | `12.50%` | `75.00%` | `87.50%` | **`87.50%`** |
 | **RAGAS Context Recall** | `0.0000` | `0.5000` | `0.6875` | **`0.5714`** |
-| **Overall Verdict Accuracy** | `0.00%` (Raw) | `35.00%` | `40.00%` | **`40.00%`** |
 
 ---
 
@@ -53,14 +54,25 @@ The benchmark evaluates 20 representative claims extracted across two novels (*I
 
 ---
 
-### 🔹 Iteration 3: Entity Normalization & Robust Substring Aggregation
+### 🔹 Iteration 3: Architectural Breakthroughs (Accuracy Jump: 40% ➔ 60%)
 * **Changes Made**:
-  1. **Entity Punctuation & Possessive Stripping (`Pipeline/querySearch.py`)**: Updated `extract_entity()` to strip possessive apostrophes (`'s`, `'`) and trailing punctuation.
-  2. **Enhanced Contradiction Instructions (`Pipeline/verfication.py`)**: Added explicit prompt instructions for conflicting roles and attributes (e.g. calling a cousin a "captain" or a fisherman a "wealthy merchant").
-  3. **Robust Verdict Substring Parsing (`Pipeline/aggregation.py`)**: Replaced exact equality checks with substring matching (`'SUPPORT' in result`, `'CONTRADICT' in result`) to handle LLM formatting variations.
+  1. **Fixed Possessive Truncation Bug (`Pipeline/querySearch.py`)**:
+     * Fixed string-stripping bug where `strip(" '’s.,")` was stripping valid trailing `'s'` characters from names (e.g., turning `Mercédès` into `mercédé` and `Dantès` into `dantè`).
+     * Added `find_entity_in_index()` with accent normalization (`leclère` $\leftrightarrow$ `leclere`), achieving **100% entity match rate**.
+  2. **Implemented Hybrid Retrieval (`Pipeline/claimRetrieval.py`)**:
+     * Combined entity-restricted subset search with global semantic search, enabling retrieval of crucial book-opening facts where names appear after setting descriptions.
+  3. **Fixed Relative Pronoun & Clause Scrambling (`Pipeline/claimExtraction.py`)**:
+     * Prevented pronoun resolver from corrupting relative clauses (`who`/`which`) with distant entity names.
+     * Preserved coordinate verb phrases (e.g., *"hooked and landed the shark"*) from being broken into dangling fragments.
+  4. **Regex-Based Verdict Parsing (`Pipeline/aggregation.py`)**:
+     * Replaced substring checks (`'SUPPORT' in result`, `'CONTRADICT' in result`) with strict regex extraction (`re.findall(r'verdict\s*:\s*["\']?\s*(SUPPORT|CONTRADICT|NOT MENTIONED)...')`).
+     * Eliminated false-positive collisions from reasoning phrases like *"nor does it directly contradict this claim"*.
+  5. **Endpoint Retry & Concurrency Guard (`Pipeline/embeddingsGeneration.py`, `Pipeline/verfication.py`)**:
+     * Added automated retry loops with backoff on Ollama `/api/embed` and `/api/generate` to handle transient model reload hiccups.
 * **Impact**:
-  * **RAGAS Answer Relevancy** increased to **`0.6419` (64.19%)**.
-  * **$100\%$ of claims** (including possessive entity names) trigger **Entity-restricted search**.
+  * **Overall Accuracy increased to 60.00% (12/20)**.
+  * **`NOT MENTIONED` Recall reached 100.00% (6/6)**.
+  * **`SUPPORT` Recall reached 75.00% (6/8)**.
 
 ---
 
