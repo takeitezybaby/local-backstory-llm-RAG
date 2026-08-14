@@ -88,12 +88,16 @@ def evaluate_traces(traces_path="Data/eval_traces.json", output_path="Data/eval_
 
         metrics = [faithfulness, answer_relevancy, context_precision, context_recall]
 
-        print("Running RAGAS evaluation metrics...")
+        from ragas.run_config import RunConfig
+
+        print("Running RAGAS evaluation metrics (sequential execution to avoid local Ollama timeouts)...")
+        run_config = RunConfig(max_workers=1, timeout=120)
         eval_result = evaluate(
             dataset=dataset,
             metrics=metrics,
             llm=eval_llm,
-            embeddings=eval_embeddings
+            embeddings=eval_embeddings,
+            run_config=run_config
         )
 
         ragas_scores = eval_result
