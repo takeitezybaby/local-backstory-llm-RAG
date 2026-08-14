@@ -1,12 +1,12 @@
 {
-  "overall_verdict_accuracy": 0.4,
+  "overall_verdict_accuracy": 0.35,
   "total_claims": 20,
-  "correct_claims": 8,
+  "correct_claims": 7,
   "verdict_breakdown": {
     "SUPPORT": {
       "total_gt": 8,
-      "correct": 6,
-      "predicted": 14
+      "correct": 7,
+      "predicted": 19
     },
     "CONTRADICT": {
       "total_gt": 6,
@@ -15,11 +15,11 @@
     },
     "NOT MENTIONED": {
       "total_gt": 6,
-      "correct": 2,
-      "predicted": 6
+      "correct": 0,
+      "predicted": 1
     }
   },
-  "ragas_scores": "{'faithfulness': nan, 'answer_relevancy': 0.5871, 'context_precision': nan, 'context_recall': 0.5000}",
+  "ragas_scores": "{'faithfulness': nan, 'answer_relevancy': 0.6247, 'context_precision': 0.0000, 'context_recall': 0.6875}",
   "detailed_traces": [
     {
       "id": 1,
@@ -154,7 +154,7 @@
       "contexts": [
         "\" Oh , M. de Villefort , \" cried a beautiful young creature , daughter to the Comte de Salvieux , and the cherished friend of Mademoiselle de Saint - Méran , \" do try and get up some famous trial while we are at Marseilles ."
       ],
-      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
+      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "Villefort, the deputy crown prosecutor, burned the Bonapartist letter addressed to his father Noirtier and imprisoned Dantès in the Château d'If.",
       "ground_truth_verdict": "SUPPORT",
       "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
@@ -169,12 +169,12 @@
         "Then in the long days on board ship , when the vessel , gliding on with security over the azure sea , required no care but the hand of the helmsman , thanks to the favorable winds that swelled her sails , Edmond , with a chart in his hand , became the instructor of Jacopo , as the poor Abbé Faria had been his tutor .",
         "Besides , were not those riches chimerical?—offspring of the brain of the poor Abbé Faria , had they not died with him ?"
       ],
-      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
+      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "Abbé Faria, an Italian priest, became Dantès' companion in the Château d'If and bequeathed him the secret treasure of Monte Cristo.",
       "ground_truth_verdict": "SUPPORT",
-      "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
-      "normalized_score": 0.0,
-      "mapped_actual_verdict": "NOT MENTIONED"
+      "actual_verdict": "COMPATIBLE",
+      "normalized_score": 1.0,
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 8,
@@ -229,11 +229,11 @@
         "when , at that moment perhaps , Ben Joyce was going on board the yacht , when the Duncan was weighing anchor and steaming towards that fatal coast , to which every hour brought her nearer !",
         "But the Duncan is going to recover some shipwrecked sailors , abandoned on the coast of Patagonia ; and she can not change so humane a course . \""
       ],
-      "response": "Verdict: PARTIALLY COMPATIBLE. Score: 0.50. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 2}",
+      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 2, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 2}",
       "ground_truth": "John Mangles is the captain of the Duncan. Major MacNabb is Lord Glenarvan's cousin.",
       "ground_truth_verdict": "CONTRADICT",
-      "actual_verdict": "PARTIALLY COMPATIBLE",
-      "normalized_score": 0.5,
+      "actual_verdict": "COMPATIBLE",
+      "normalized_score": 1.0,
       "mapped_actual_verdict": "SUPPORT"
     },
     {
@@ -257,12 +257,12 @@
         "At last the quartermaster finished his exploration by inspecting the masts and rigging ; and , after a few moments of general review , said : \" Shall I be greatly mistaken , \" added Ayrton , \" if I say that the Duncan can easily make fifteen knots an hour at full speed ? \"",
         "\" Well , Ayrton , \" continued Glenarvan , \" you have kept your word , and I will keep mine ."
       ],
-      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
+      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "Ayrton was the former quartermaster of the Britannia who turned convict and pirate leader in Australia.",
       "ground_truth_verdict": "CONTRADICT",
-      "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
-      "normalized_score": 0.0,
-      "mapped_actual_verdict": "NOT MENTIONED"
+      "actual_verdict": "COMPATIBLE",
+      "normalized_score": 1.0,
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 11,
@@ -313,12 +313,12 @@
         "However , Captain Mangles 's prompt management had rescued the brig from her peril ; but he did not know his position .",
         "\" Immediately , my lord , \" replied the captain , as he went on deck , while Robert and Mary Grant uttered the liveliest expressions of gratitude ; and the Duncan , leaving the American coast and heading to the east , was soon swiftly ploughing the waves of the Atlantic ."
       ],
-      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
+      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "Captain Leclère died of brain fever during the voyage near Elba; Dantès brought the ship home.",
       "ground_truth_verdict": "CONTRADICT",
-      "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
-      "normalized_score": 0.0,
-      "mapped_actual_verdict": "NOT MENTIONED"
+      "actual_verdict": "COMPATIBLE",
+      "normalized_score": 1.0,
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 13,
@@ -396,12 +396,12 @@
         "But Glenarvan was not discouraged . He returned to Talcahuana , and , sparing neither fatigue , trouble , or money , he sent men to the coast , but their search was in vain .",
         "However , before thinking of fatigue , or the imperative calls of hunger and thirst , Glenarvan questioned Tom Austin concerning his presence in these waters ."
       ],
-      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
+      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "No mention of Lord Glenarvan studying marine biology at Oxford University.",
       "ground_truth_verdict": "NOT MENTIONED",
-      "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
-      "normalized_score": 0.0,
-      "mapped_actual_verdict": "NOT MENTIONED"
+      "actual_verdict": "COMPATIBLE",
+      "normalized_score": 1.0,
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 16,
@@ -523,12 +523,12 @@
         "' I am Haydée , the daughter of Ali Tepelini , pasha of Yanina , and of Vasiliki , his beloved wife . '",
         "ask my beloved sister Haydée , who ever since our departure from France , has caused me to wait patiently for this happy day , while talking to me of you . \""
       ],
-      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
+      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "No mention of Haydée attending school in Vienna.",
       "ground_truth_verdict": "NOT MENTIONED",
-      "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
-      "normalized_score": 0.0,
-      "mapped_actual_verdict": "NOT MENTIONED"
+      "actual_verdict": "COMPATIBLE",
+      "normalized_score": 1.0,
+      "mapped_actual_verdict": "SUPPORT"
     }
   ]
 }

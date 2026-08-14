@@ -4,19 +4,21 @@ This directory contains the benchmark datasets, evaluation scripts, and historic
 
 ---
 
-## 📊 Evaluation Framework Overview
+## 📊 Evaluation Framework & Latest Benchmark Results
 
 The benchmark evaluates 20 representative claims extracted across two novels (*In Search of the Castaways* by Jules Verne and *The Count of Monte Cristo* by Alexandre Dumas):
 * **SUPPORT (8 Claims)**: True claims explicitly confirmed by the novels.
 * **CONTRADICT (6 Claims)**: False claims containing contradictory details (wrong characters, wrong locations, inverted plot points).
 * **NOT MENTIONED (6 Claims)**: Plausible backstory claims unmentioned in the text.
 
-### Metrics Tracked:
-1. **Verdict Classification Accuracy**: Overall accuracy, Precision, and Recall for `SUPPORT`, `CONTRADICT`, and `NOT MENTIONED`.
-2. **RAGAS Metrics**:
-   * **Context Recall**: Measure of whether all required evidence was retrieved.
-   * **Answer Relevancy**: Measure of how directly the verification output addresses the backstory claim.
-   * **Faithfulness**: Measure of whether the generated explanation relies solely on retrieved source text.
+### Latest Scorecard Summary
+
+| Metric / Iteration | Baseline | Iteration 1 (Retrieval Fixes) | Iteration 2 (Prompt & Logic Fixes) |
+|---|---|---|---|
+| **RAGAS Context Recall** | `0.0000` | `0.5000` | **`0.6875`** |
+| **RAGAS Answer Relevancy** | N/A | `0.5871` | **`0.6247`** |
+| **`SUPPORT` Verdict Recall** | `12.50%` | `75.00%` | **`87.50%`** |
+| **Overall Verdict Accuracy** | `0.00%` (Raw) | `35.00%` | **`40.00%`** |
 
 ---
 
@@ -49,8 +51,9 @@ The benchmark evaluates 20 representative claims extracted across two novels (*I
      * Clarified `NOT MENTIONED` vs `CONTRADICT` boundaries.
   3. **Verdict Normalization (`Pipeline/ragas_evaluator.py`)**: Mapped internal system verdicts (`COMPATIBLE` -> `SUPPORT`, `INCOMPATIBLE` -> `CONTRADICT`, `NO CONTRADICTION, BUT NOT SUPPORTED` -> `NOT MENTIONED`) for standardized benchmark scoring.
 * **Impact**:
-  * Improved overall verdict classification accuracy to **40%+**.
-  * RAGAS `Answer Relevancy` achieved **0.5871** and `Context Recall` achieved **0.5000**.
+  * RAGAS `Context Recall` increased to **0.6875** (68.75%).
+  * RAGAS `Answer Relevancy` increased to **0.6247** (62.47%).
+  * `SUPPORT` Verdict Recall reached **87.50%**.
 
 ---
 
