@@ -16,12 +16,12 @@ def aggregate_results (llm_response) :
       not_mentioned = 0
       for response in llm_response :
             result = response["Verification_result"].strip().upper()
-            if result == 'SUPPORT' :
-                  support +=1
-            elif result == 'NOT MENTIONED' :
+            if 'SUPPORT' in result :
+                  support += 1
+            elif 'CONTRADICT' in result : 
+                  contradict += 1
+            else :
                   not_mentioned += 1
-            elif result == 'CONTRADICT' : 
-                  contradict +=1
       total_length = len(llm_response)
       score = (1*support) + (-2 * contradict)
       normalized_score = score/total_length if total_length > 0 else 0

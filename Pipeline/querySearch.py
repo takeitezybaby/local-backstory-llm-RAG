@@ -14,12 +14,12 @@ def extract_entity(query) :
       doc = nlp(query)
       for ent in doc.ents :
             if ent.label_ == "PERSON" :
-                  return ent.text.lower()
+                  return ent.text.lower().strip(" '’s.,")
             
-      #Adding subject based entity detection to avoid unnecessary global serach
+      #Adding subject based entity detection to avoid unnecessary global search
       for token in doc :
             if token.dep_ in {"nsubj", "nsubjpass"} :
-                  return token.text.lower()
+                  return token.text.lower().strip(" '’s.,")
       return None
 
 

@@ -1,12 +1,12 @@
 {
-  "overall_verdict_accuracy": 0.35,
+  "overall_verdict_accuracy": 0.4,
   "total_claims": 20,
-  "correct_claims": 7,
+  "correct_claims": 8,
   "verdict_breakdown": {
     "SUPPORT": {
       "total_gt": 8,
       "correct": 7,
-      "predicted": 19
+      "predicted": 17
     },
     "CONTRADICT": {
       "total_gt": 6,
@@ -15,11 +15,11 @@
     },
     "NOT MENTIONED": {
       "total_gt": 6,
-      "correct": 0,
-      "predicted": 1
+      "correct": 1,
+      "predicted": 3
     }
   },
-  "ragas_scores": "{'faithfulness': nan, 'answer_relevancy': 0.6247, 'context_precision': 0.0000, 'context_recall': 0.6875}",
+  "ragas_scores": "{'faithfulness': nan, 'answer_relevancy': 0.6419, 'context_precision': 0.0000, 'context_recall': 0.5714}",
   "detailed_traces": [
     {
       "id": 1,
@@ -125,20 +125,7 @@
       "question": "Edmond Dantès arrived in Marseilles on February 24, 1815, aboard the three-masted ship the Pharaon.",
       "user_input": "Edmond Dantès arrived in Marseilles on February 24, 1815, aboard the three-masted ship the Pharaon.",
       "contexts": [
-        "My husband was a great friend , in 1814 or 1815 , of a sailor named Edmond Dantès .",
-        "The prisoner himself is named Edmond Dantès , mate on board the three - master the _ Pharaon _ , trading in cotton with Alexandria and Smyrna , and belonging to Morrel & Son , of Marseilles . \"",
-        "\" ' The king 's attorney is informed by a friend to the throne and the religious institutions of his country , that one named Edmond Dantès , mate of the ship _ Pharaon _ , this day arrived from Smyrna , after having touched at Naples and Porto - Ferrajo , has been the bearer of a letter from Murat to the usurper , and again taken charge of another letter from the usurper to the Bonapartist club in Paris .",
-        "\" The honorable , the king 's attorney , is informed by a friend of the throne and religion , that one Edmond Dantès , mate of the ship _ Pharaon _ , arrived this morning from Smyrna , after having touched at Naples and Porto - Ferrajo , has been intrusted by Murat with a letter for the usurper , and by the usurper with a letter for the Bonapartist committee in Paris .",
-        "Dantès paused a moment , then said , \" This is it , word for word : ' The king 's attorney is informed by a friend to the throne and religion , that one Edmond Dantès , mate on board the _ Pharaon _ , this day arrived from Smyrna , after having touched at Naples and Porto - Ferrajo , has been intrusted by Murat with a packet for the usurper ; again , by the usurper , with a letter for the Bonapartist Club in Paris .",
-        "He was a man of twenty - five or twenty - six years of age , of unprepossessing countenance , obsequious to his superiors , insolent to his subordinates ; and this , in addition to his position as responsible agent on board , which is always obnoxious to the sailors , made him as much disliked by the crew as Edmond Dantès was beloved by them .",
-        "Some of your people have committed the strangest mistake — they have just arrested Edmond Dantès , mate of my vessel . \"",
-        "On turning round the owner saw Danglars behind him , apparently awaiting orders , but in reality also watching the young sailor,—but there was a great difference in the expression of the two men who thus followed the movements of Edmond Dantès .",
-        "Mercédès read with terror the following lines : \" The king 's attorney is informed by a friend to the throne and religion that one Edmond Dantès , second in command on board the _ Pharaon _ , this day arrived from Smyrna , after having touched at Naples and Porto - Ferrajo , is the bearer of a letter from Murat to the usurper , and of another letter from the usurper to the Bonapartist club in Paris .",
-        "All that is in this grotto , my friend , my house in the Champs - Élysées , and my château at Tréport , are the marriage gifts bestowed by Edmond Dantès upon the son of his old master , Morrel .",
-        "One is that of Edmond Dantès , lost to me long , long since .",
-        "This horrible place contained fifty cells ; their inhabitants were designated by the numbers of their cell , and the unhappy young man was no longer called Edmond Dantès — he was now number 34 .",
-        "Ample corroboration of this statement may be obtained by arresting the above - mentioned Edmond Dantès , who either carries the letter for Paris about with him , or has it at his father 's abode .",
-        "The other grave is that of the man who met his death from the hand of Edmond Dantès ."
+        "\" Did you , in the year 1814 or 1815 , know anything of a young sailor named Dantès ? \""
       ],
       "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "On the 24th of February, 1815, the look-out at Notre-Dame de la Garde signalled the three-master, the Pharaon.",
@@ -154,7 +141,7 @@
       "contexts": [
         "\" Oh , M. de Villefort , \" cried a beautiful young creature , daughter to the Comte de Salvieux , and the cherished friend of Mademoiselle de Saint - Méran , \" do try and get up some famous trial while we are at Marseilles ."
       ],
-      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
+      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
       "ground_truth": "Villefort, the deputy crown prosecutor, burned the Bonapartist letter addressed to his father Noirtier and imprisoned Dantès in the Château d'If.",
       "ground_truth_verdict": "SUPPORT",
       "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
@@ -229,11 +216,11 @@
         "when , at that moment perhaps , Ben Joyce was going on board the yacht , when the Duncan was weighing anchor and steaming towards that fatal coast , to which every hour brought her nearer !",
         "But the Duncan is going to recover some shipwrecked sailors , abandoned on the coast of Patagonia ; and she can not change so humane a course . \""
       ],
-      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 2, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 2}",
+      "response": "Verdict: PARTIALLY COMPATIBLE. Score: 0.50. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 2}",
       "ground_truth": "John Mangles is the captain of the Duncan. Major MacNabb is Lord Glenarvan's cousin.",
       "ground_truth_verdict": "CONTRADICT",
-      "actual_verdict": "COMPATIBLE",
-      "normalized_score": 1.0,
+      "actual_verdict": "PARTIALLY COMPATIBLE",
+      "normalized_score": 0.5,
       "mapped_actual_verdict": "SUPPORT"
     },
     {
@@ -325,48 +312,37 @@
       "question": "Fernand Mondego was a wealthy merchant from Paris who hired Edmond Dantès to navigate the Pharaon.",
       "user_input": "Fernand Mondego was a wealthy merchant from Paris who hired Edmond Dantès to navigate the Pharaon.",
       "contexts": [
-        "Dantès paused a moment , then said , \" This is it , word for word : ' The king 's attorney is informed by a friend to the throne and religion , that one Edmond Dantès , mate on board the _ Pharaon _ , this day arrived from Smyrna , after having touched at Naples and Porto - Ferrajo , has been intrusted by Murat with a packet for the usurper ; again , by the usurper , with a letter for the Bonapartist Club in Paris .",
-        "\" ' The king 's attorney is informed by a friend to the throne and the religious institutions of his country , that one named Edmond Dantès , mate of the ship _ Pharaon _ , this day arrived from Smyrna , after having touched at Naples and Porto - Ferrajo , has been the bearer of a letter from Murat to the usurper , and again taken charge of another letter from the usurper to the Bonapartist club in Paris .",
-        "\" The honorable , the king 's attorney , is informed by a friend of the throne and religion , that one Edmond Dantès , mate of the ship _ Pharaon _ , arrived this morning from Smyrna , after having touched at Naples and Porto - Ferrajo , has been intrusted by Murat with a letter for the usurper , and by the usurper with a letter for the Bonapartist committee in Paris .",
-        "The prisoner himself is named Edmond Dantès , mate on board the three - master the _ Pharaon _ , trading in cotton with Alexandria and Smyrna , and belonging to Morrel & Son , of Marseilles . \"",
-        "On turning round the owner saw Danglars behind him , apparently awaiting orders , but in reality also watching the young sailor,—but there was a great difference in the expression of the two men who thus followed the movements of Edmond Dantès .",
-        "My husband was a great friend , in 1814 or 1815 , of a sailor named Edmond Dantès .",
-        "Mercédès read with terror the following lines : \" The king 's attorney is informed by a friend to the throne and religion that one Edmond Dantès , second in command on board the _ Pharaon _ , this day arrived from Smyrna , after having touched at Naples and Porto - Ferrajo , is the bearer of a letter from Murat to the usurper , and of another letter from the usurper to the Bonapartist club in Paris .",
-        "He was a man of twenty - five or twenty - six years of age , of unprepossessing countenance , obsequious to his superiors , insolent to his subordinates ; and this , in addition to his position as responsible agent on board , which is always obnoxious to the sailors , made him as much disliked by the crew as Edmond Dantès was beloved by them .",
-        "It appears , sir , that this Edmond Dantès had procured tools , or made them , for they found a tunnel through which the prisoners held communication with one another . \"",
-        "\" It is a beautiful diamond left by poor Edmond Dantès , to be sold , and the money divided between his father , Mercédès , his betrothed bride , Fernand , Danglars , and myself .",
-        "Had you known this Edmond Dantès , of whom they spoke ? \"",
-        "It was Danglars ' letter to the king 's attorney , which the Count of Monte Cristo , disguised as a clerk from the house of Thomson & French , had taken from the file against Edmond Dantès , on the day he had paid the two hundred thousand francs to M. de Boville .",
-        "The Englishman easily found the entries relative to the Abbé Faria ; but it seemed that the history which the inspector had related interested him greatly , for after having perused the first documents he turned over the leaves until he reached the deposition respecting Edmond Dantès .",
-        "\" I am he whom you sold and dishonored — I am he whose betrothed you prostituted — I am he upon whom you trampled that you might raise yourself to fortune — I am he whose father you condemned to die of hunger — I am he whom you also condemned to starvation , and who yet forgives you , because he hopes to be forgiven — I am Edmond Dantès ! \"",
-        "All that is in this grotto , my friend , my house in the Champs - Élysées , and my château at Tréport , are the marriage gifts bestowed by Edmond Dantès upon the son of his old master , Morrel ."
+        "It is fair to assume that Dantès was on board a smuggler .",
+        "Two hours afterward Dantès sailed from the port of Genoa , under the inspection of an immense crowd drawn together by curiosity to see the rich Spanish nobleman who preferred managing his own yacht .",
+        "He was very well known to the customs officers of the coast ; and as there was between these worthies and himself a perpetual battle of wits , he had at first thought that Dantès might be an emissary of these industrious guardians of rights and duties , who perhaps employed this ingenious means of learning some of the secrets of his trade ."
       ],
-      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
+      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
       "ground_truth": "Fernand was a Catalan fisherman in love with Mercédès who plotted against Dantès.",
       "ground_truth_verdict": "CONTRADICT",
-      "actual_verdict": "COMPATIBLE",
-      "normalized_score": 1.0,
-      "mapped_actual_verdict": "SUPPORT"
+      "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
+      "normalized_score": 0.0,
+      "mapped_actual_verdict": "NOT MENTIONED"
     },
     {
       "id": 14,
       "question": "Mercédès married Edmond Dantès immediately after the Pharaon docked in Marseilles on February 24, 1815.",
       "user_input": "Mercédès married Edmond Dantès immediately after the Pharaon docked in Marseilles on February 24, 1815.",
       "contexts": [
-        "\" Well , Mercédès was married , \" proceeded Caderousse ; \" but although in the eyes of the world she appeared calm , she nearly fainted as she passed La Réserve , where , eighteen months before , the betrothal had been celebrated with him whom she might have known she still loved , had she looked to the bottom of her heart .",
-        "Dantès obeyed , and commenced what he called his history , but which consisted only of the account of a voyage to India , and two or three voyages to the Levant , until he arrived at the recital of his last cruise , with the death of Captain Leclere , and the receipt of a packet to be delivered by himself to the grand marshal ; his interview with that personage , and his receiving , in place of the packet brought , a letter addressed to a Monsieur Noirtier — his arrival at Marseilles , and interview with his father — his affection for Mercédès , and their nuptial feast — his arrest and subsequent examination , his temporary detention at the Palais de Justice , and his final imprisonment in the Château d'If .",
-        "He was now a lieutenant . At his first coming he had not said a word of love to Mercédès ; at the second he reminded her that he loved her .",
-        "The following day Dantès presented Jacopo with an entirely new vessel , accompanying the gift by a donation of one hundred piastres , that he might provide himself with a suitable crew and other requisites for his outfit , upon condition that he would go at once to Marseilles for the purpose of inquiring after an old man named Louis Dantès , residing in the Allées de Meilhan , and also a young woman called Mercédès , an inhabitant of the Catalan village .",
-        "\" Never mind — in the meantime he marries Mercédès — the lovely Mercédès — at least he returns to do that . \"",
-        "I will tell you the real facts . I swear by my honor as a sailor , by my love for Mercédès , by the life of my father — — \" \" Speak , monsieur , \" said Villefort .",
-        "Edmond and Mercédès were clasped in each other 's arms .",
-        "Meanwhile what of Mercédès ? She had met Fernand at the corner of the Rue de la Loge ; she had returned to the Catalans , and had despairingly cast herself on her couch .",
-        "If at this moment the sweet voice of Renée had sounded in his ears pleading for mercy , or the fair Mercédès had entered and said , \" In the name of God , I conjure you to restore me my affianced husband , \" his cold and trembling hands would have signed his release ; but no voice broke the stillness of the chamber , and the door was opened only by Villefort 's valet , who came to tell him that the travelling carriage was in readiness .",
-        "The count departed with a sad heart from the house in which he had left Mercédès , probably never to behold her again .",
-        "\" Ah , M. Morrel , \" exclaimed the young seaman , with tears in his eyes , and grasping the owner 's hand , \" M. Morrel , I thank you in the name of my father and of Mercédès . \"",
-        "Caderousse quickly performed the stranger 's bidding ; and after pouring some into a glass , and slowly swallowing its contents , the abbé , resuming his usual placidity of manner , said , as he placed his empty glass on the table : \" The name of Edmond 's betrothed was Mercédès . \"",
-        "For , notwithstanding all my sorrows and my tortures , I show you today a face which the happiness of revenge makes young again — a face you must often have seen in your dreams since your marriage with Mercédès , my betrothed ! \"",
-        "Mercédès courtesied gravely , and said—\"That is not my name , and in my country it bodes ill fortune , they say , to call a young girl by the name of her betrothed before he becomes her husband ."
+        "He brought me up as if I had been his son , and in 1814 he married .",
+        "I left Glasgow in Captain Grant 's ship on the 12th of March , 1861 .",
+        "My husband was a great friend , in 1814 or 1815 , of a sailor named Edmond Dantès .",
+        "I landed here , regulated the affairs of the vessel , and hastened to visit my affianced bride , whom I found more lovely than ever .",
+        "In fact , a moment later M. Morrel appeared and was saluted with an enthusiastic burst of applause from the crew of the _ Pharaon _ , who hailed the visit of the shipowner as a sure indication that the man whose wedding feast he thus delighted to honor would ere long be first in command of the ship ; and as Dantès was universally beloved on board his vessel , the sailors put no restraint on their tumultuous joy at finding that the opinion and choice of their superiors so exactly coincided with their own .",
+        "Our cargo was to be landed in the Gulf of Lyons , and this was a difficult thing to do because it was then the year 1829 .",
+        "The Frenchman , mistaking the vessel , had embarked while the crew of the Duncan were engaged in the ceremony at Saint Mungo .",
+        "\" Six months afterwards , \" continued Caderousse , \" the marriage took place in the church of Accoules . \"",
+        "\" Wait a moment , \" said Villefort , turning over the leaves of a register ; \" I have it — a sailor , who was about to marry a young Catalan girl .",
+        "That happened , as I told you , in 1829 .",
+        "He was coming here to hasten her marriage with Franz . \"",
+        "He had been married scarcely three months , having espoused Miss Helena Tuffnel , daughter of the great traveler , William Tuffnel , one of the numerous victims to the great passion for geographical discoveries .",
+        "\" It was the 8th of April , 1862 , then , that you were landed on the west coast of Australia ? \"",
+        "When I returned she was married . This is the history of most men who have passed twenty years of age .",
+        "\" You heard it for the first time at Marseilles , twenty - three years ago , the day of your marriage with Mademoiselle de Saint - Méran ."
       ],
       "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
       "ground_truth": "Dantès was arrested during their betrothal feast before any marriage took place.",
@@ -396,12 +372,12 @@
         "But Glenarvan was not discouraged . He returned to Talcahuana , and , sparing neither fatigue , trouble , or money , he sent men to the coast , but their search was in vain .",
         "However , before thinking of fatigue , or the imperative calls of hunger and thirst , Glenarvan questioned Tom Austin concerning his presence in these waters ."
       ],
-      "response": "Verdict: COMPATIBLE. Score: 1.00. Breakdown: {'Supporting claims': 1, 'Contradicting claims': 0, 'Not Mentioned claims': 0, 'Total claims': 1}",
+      "response": "Verdict: NO CONTRADICTION, BUT NOT SUPPORTED. Score: 0.00. Breakdown: {'Supporting claims': 0, 'Contradicting claims': 0, 'Not Mentioned claims': 1, 'Total claims': 1}",
       "ground_truth": "No mention of Lord Glenarvan studying marine biology at Oxford University.",
       "ground_truth_verdict": "NOT MENTIONED",
-      "actual_verdict": "COMPATIBLE",
-      "normalized_score": 1.0,
-      "mapped_actual_verdict": "SUPPORT"
+      "actual_verdict": "NO CONTRADICTION, BUT NOT SUPPORTED",
+      "normalized_score": 0.0,
+      "mapped_actual_verdict": "NOT MENTIONED"
     },
     {
       "id": 16,

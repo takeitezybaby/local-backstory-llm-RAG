@@ -38,10 +38,10 @@ def prompt_generation (claim, evidence_list, entity) :
       {Evidence}
 
       INSTRUCTIONS:
-      - Classify the claim as one of: SUPPORT, CONTRADICT, or NOT MENTIONED.
+      - Classify the claim strictly as one of: SUPPORT, CONTRADICT, or NOT MENTIONED.
       1. SUPPORT: The evidence explicitly confirms both the character and the specific fact or action in the claim.
-      2. CONTRADICT: The evidence explicitly refutes the claim or states conflicting facts (e.g. wrong occupation, wrong relative, wrong outcome, or different event).
-      3. NOT MENTIONED: The evidence provided does not contain sufficient details to either confirm or contradict the claim.
+      2. CONTRADICT: The evidence conflicts with or refutes the claim (e.g., wrong title/role like calling a cousin 'captain', wrong father, wrong job, or opposite outcome). If the entity is mentioned but the stated role/action contradicts source facts, output CONTRADICT.
+      3. NOT MENTIONED: The evidence provided does not contain sufficient details to either confirm or refute the claim.
 
       ANSWER IN ONE WORD ONLY: SUPPORT, CONTRADICT, or NOT MENTIONED.
       DO NOT EXPLAIN.
