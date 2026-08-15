@@ -77,16 +77,19 @@ def loadEntityIndex (jsonpath) :
             return json.load(f)
       
 
-#global search if entity not found
-def global_search(query, faiss_index, metadata):
+#global search if entity not found (supports optional book filtering)
+def global_search(query, faiss_index, metadata, target_book=None, top_k=12):
     query_embed = createEmbeddings(query)
     query_embed = normalize(query_embed)
     
-    scores, indices = faiss_index.search(query_embed, k)
+    k_search = 120 if target_book else 20
+    scores, indices = faiss_index.search(query_embed, k_search)
 
     results = []
     for score, idx in zip(scores[0], indices[0]):
         Parentdata = metadata[idx]
+        if target_book and Parentdata.get("Book") != target_book:
+            continue
         results.append({
             "Score": float(score),
             "text": Parentdata["text"],
@@ -95,6 +98,8 @@ def global_search(query, faiss_index, metadata):
             "Parent Chunk id": Parentdata["Parent Chunk id"],
             "Atomic id": Parentdata["Atomic id"]
         })
+        if len(results) >= top_k:
+            break
 
     return results
 #subsetting using entity grounded embeddings

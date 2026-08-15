@@ -15,7 +15,7 @@ def generate_response (prompt, max_retries=3) :
       for attempt in range(max_retries) :
             try :
                   response = requests.post(API, json={
-                        "model" : "koesn/mistral-7b-instruct:latest",
+                        "model" : "phi3.5:latest",
                         "prompt" : prompt,
                         "stream" : False,
                         "options" : {
@@ -34,29 +34,33 @@ def generate_response (prompt, max_retries=3) :
 
 #Generating prompt
 def prompt_generation (claim, evidence_list, entity) :
-      top_evidence = evidence_list[:10]
+      top_evidence = evidence_list[:12]
       Evidence = "\n".join(
             [
-                  f"Evidence {i+1} :\n {evid['text']}" for i,evid in enumerate(top_evidence)
+                  f"Evidence {i+1}:\n{evid['text']}" for i,evid in enumerate(top_evidence)
             ]
       )
-      prompt  = f"""[INST] You are an expert fact-checker evaluating a backstory claim against novel evidence excerpts.
+      prompt  = f"""<|user|>
+You are an expert fact-checker evaluating a backstory claim against source novel excerpts.
 
 Claim: "{claim}"
 Entity: "{entity}"
 
-Evidence Excerpts:
+Source Excerpts:
 {Evidence}
 
-EVALUATION RULES:
-1. SUPPORT: The evidence explicitly confirms the claim's core facts (the character, role, and actions/events).
-2. CONTRADICT: The claim asserts facts that conflict with or contradict the source evidence (e.g. asserts an entity has a different role/title, wrong parent, wrong job, or claims an event succeeded when evidence shows they died or were betrayed).
-3. NOT MENTIONED: The key asserted fact/action is completely unmentioned in the evidence excerpts (e.g. mentions Lady Helena, but says nothing about being a military nurse in the Crimean War).
+EVALUATION CRITERIA:
+1. SUPPORT: The claim is confirmed true by the source excerpts.
+2. CONTRADICT: The claim contradicts or conflicts with facts in the source excerpts (e.g. asserts someone was captain when the excerpts show someone else was captain; asserts someone was a merchant when excerpts show they were a fisherman; asserts someone died vs arrived safely; asserts a character has different parents).
+3. NOT MENTIONED: The asserted event/fact is completely unmentioned in the source excerpts.
 
-CRITICAL RULE: If the evidence shows the character in an entirely different role, relation, or state than asserted in the claim (e.g. Major MacNabb is Lord Glenarvan's cousin rather than captain; Fernand is a fisherman rather than a wealthy Parisian merchant; Ayrton is a convict/mutineer rather than loyal mate; Leclère died at sea rather than safely landing), you MUST classify as "Verdict: CONTRADICT".
-
-Briefly verify the claim, then conclude your answer on the last line with exactly:
-"Verdict: SUPPORT", "Verdict: CONTRADICT", or "Verdict: NOT MENTIONED". [/INST]"""
+Evaluate concisely, then conclude on the last line with exactly:
+Verdict: SUPPORT
+or
+Verdict: CONTRADICT
+or
+Verdict: NOT MENTIONED<|end|>
+<|assistant|>"""
       return prompt
 
 

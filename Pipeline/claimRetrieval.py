@@ -19,6 +19,18 @@ def filterByEntity(results, entity):
       return filtered if filtered else results
 
 
+def get_entity_book(matched_key, entity_index, metadata):
+      if not matched_key or matched_key not in entity_index:
+            return None
+      cids = entity_index[matched_key]
+      if not cids:
+            return None
+      first_cid = cids[0]
+      if first_cid < len(metadata):
+            return metadata[first_cid].get("Book")
+      return None
+
+
 #claim retrieval pipeline
 def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
       claims = extract_atomic_claims(backstory)
@@ -26,7 +38,9 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
       for claim in claims :
             claim_entity = extract_entity(claim, entity_index)
             matched_key = find_entity_in_index(claim_entity, entity_index)
-            global_results = global_search(claim, faiss_index, metadata)
+            target_book = get_entity_book(matched_key, entity_index, metadata)
+            
+            global_results = global_search(claim, faiss_index, metadata, target_book=target_book, top_k=12)
             
             if matched_key and matched_key in entity_index :
                   entity_results = subset_search(claim, entity_index[matched_key], faiss_index, metadata)
@@ -39,7 +53,7 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
                               seen_texts.add(t)
                               combined.append(r)
                   result = combined[:15]
-                  search_type = f"Hybrid (Global(10) + Entity '{matched_key}'(5))"
+                  search_type = f"Hybrid (Global(10) + Entity '{matched_key}'(5)) [Book {target_book}]"
             else :
                   result = global_results[:15]
                   search_type = "Global-search"
@@ -47,6 +61,7 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
             retrievals.append ({
                   "Claim" : claim,
                   "Entity" : claim_entity,
+                  "Target_Book": target_book,
                   "Search_type" : search_type,
                   "Evidence" : result
             })

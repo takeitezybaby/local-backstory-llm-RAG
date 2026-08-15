@@ -65,7 +65,7 @@ A clear and structured explanation for the user.
 #function to call out local LLM
 def llm_call(prompt) :
       result =  requests.post(API,json={
-            "model":"mistral:7b",
+            "model":"phi3.5:latest",
             "prompt":prompt,
             "stream":False,
             "options":{

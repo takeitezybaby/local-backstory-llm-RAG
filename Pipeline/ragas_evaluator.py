@@ -74,7 +74,7 @@ def evaluate_traces(traces_path="Data/eval_traces.json", output_path="Data/eval_
         from langchain_community.embeddings import OllamaEmbeddings
 
         print("Initializing RAGAS with local Ollama LLM and Embeddings...")
-        eval_llm = ChatOllama(model="koesn/mistral-7b-instruct:latest")
+        eval_llm = ChatOllama(model="phi3.5:latest")
         eval_embeddings = OllamaEmbeddings(model="nomic-embed-text")
 
         # Convert traces to Hugging Face Dataset format
