@@ -2,7 +2,6 @@
   "overall_verdict_accuracy": 0.8,
   "total_claims": 20,
   "correct_claims": 16,
-  "model": "phi3.5:latest",
   "verdict_breakdown": {
     "SUPPORT": {
       "total_gt": 8,
@@ -20,6 +19,7 @@
       "predicted": 8
     }
   },
+  "ragas_scores": "{'faithfulness': 0.0714, 'answer_relevancy': 0.6779, 'context_precision': 0.2102, 'context_recall': 0.5000}",
   "detailed_traces": [
     {
       "id": 1,

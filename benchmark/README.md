@@ -19,6 +19,8 @@ The benchmark evaluates 20 representative claims extracted across two novels (*I
 | **`CONTRADICT` Recall** | `0.00%` | `0.00%` | `0.00%` | `0.00%` | `0.00%` | **`100.00%` (6/6)** 🎯 |
 | **`NOT MENTIONED` Recall** | `0.00%` | `16.67%` | `50.00%` | `100.00%` | `100.00%` | **`83.33%` (5/6)** 🎯 |
 | **`SUPPORT` Recall** | `12.50%` | `75.00%` | `87.50%` | `75.00%` | `100.00%` | **`62.50%` (5/8)** |
+| **RAGAS Answer Relevancy** | N/A | `0.5871` | `0.6247` | `0.6419` | `0.6130` | **`0.6779`** 📈 |
+| **RAGAS Context Precision** | N/A | `0.1428` | `0.1550` | `0.1600` | `0.1667` | **`0.2102`** 📈 |
 | **Default Model** | `mistral-7b` | `mistral-7b` | `mistral-7b` | `mistral-7b` | `mistral-7b` | **`phi3.5:latest` (3.8B)** ⚡ |
 | **Inference Time (20 claims)**| ~10 mins | ~8 mins | ~8 mins | ~7 mins | ~8 mins | **`~45 seconds`** ⚡ |
 
