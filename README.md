@@ -292,3 +292,9 @@ While currently optimized for a single-book setup and Windows execution, the arc
 * Interactive interfaces or APIs
 
 Overall, this project demonstrates how combining retrieval, structured logic, and controlled LLM usage can produce a robust and explainable validation system.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
