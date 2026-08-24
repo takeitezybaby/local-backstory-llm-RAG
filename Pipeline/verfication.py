@@ -50,9 +50,10 @@ Source Excerpts:
 {Evidence}
 
 EVALUATION CRITERIA:
-1. SUPPORT: The claim is confirmed true by the source excerpts.
-2. CONTRADICT: The claim contradicts or conflicts with facts in the source excerpts (e.g. asserts someone was captain when the excerpts show someone else was captain; asserts someone was a merchant when excerpts show they were a fisherman; asserts someone died vs arrived safely; asserts a character has different parents).
-3. NOT MENTIONED: The asserted event/fact is completely unmentioned in the source excerpts.
+1. SUPPORT: The claim is explicitly confirmed true by the source excerpts (direct match or clear paraphrase).
+2. CONTRADICT: The claim directly contradicts facts stated in the source excerpts (e.g. asserts someone was captain when excerpts show they were purser; asserts someone died when excerpts show they survived; asserts someone was a friend when excerpts show they were an enemy).
+3. NOT MENTIONED: The event, action, or fact is absent or unmentioned in the source excerpts.
+CRITICAL RULE: If the source excerpts simply do not contain information about a claim or a detail, you MUST choose NOT MENTIONED. DO NOT choose CONTRADICT unless there is an explicit, direct factual contradiction with facts stated in the text.
 
 Evaluate concisely, then conclude on the last line with exactly:
 Verdict: SUPPORT
@@ -61,6 +62,7 @@ Verdict: CONTRADICT
 or
 Verdict: NOT MENTIONED<|end|>
 <|assistant|>"""
+
       return prompt
 
 

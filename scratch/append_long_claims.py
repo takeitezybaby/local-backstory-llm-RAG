@@ -1,0 +1,153 @@
+import json
+import os
+
+long_10_claims = [
+    # --- CLAIM 101: Book 1 - SUPPORT ---
+    {
+        "id": 101,
+        "book": "In search of the castaways.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "When Lord Edward Glenarvan, one of the sixteen distinguished Scottish peers sitting in the House of Lords and an esteemed member of the Royal Thames Yacht Club, discovered the triple-language message encased inside a champagne bottle retrieved from the belly of a captured hammerhead shark in the Firth of Clyde, he immediately traveled south to London to petition the British Admiralty for a dedicated naval rescue vessel to assist the survivors. Upon receiving a cold official refusal from the government authorities who doubted the authenticity of Captain Harry Grant's distress call, his noble wife Lady Helena persuaded him to undertake a private philanthropic expedition aboard their steam yacht, the Duncan. Outfitting the vessel at Glasgow with a trusted crew of twenty-five Scottish seamen under the able command of Captain John Mangles and first mate Tom Austin, Lord Glenarvan welcomed Mary and Robert Grant into his family at Malcolm Castle. Sailing across the Atlantic Ocean toward South America, Glenarvan resolved to trace the entire thirty-seventh parallel south across Patagonia, navigating treacherous mountain passes in the Andes cordillera, surviving violent earthquakes, prairie floods, and hostile native tribes to locate any surviving crewmen of the lost brig Britannia and restore them safely to their Scottish homeland.",
+        "entity": "lord glenarvan",
+        "ground_truth_verdict": "SUPPORT",
+        "reference": "Lord Glenarvan, after the Admiralty's refusal, mounted a private expedition on the Duncan with Lady Helena, Captain Mangles, Tom Austin, and the Grant children along the 37th parallel."
+    },
+
+    # --- CLAIM 102: Book 1 - SUPPORT ---
+    {
+        "id": 102,
+        "book": "In search of the castaways.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Jacques Paganel, the eccentric and absent-minded secretary of the Geographical Society of Paris and corresponding member of multiple European academies, originally intended to travel to India aboard the commercial steamship Scotia to undertake extensive cartographical, botanical, and ethnographic surveys across the Asian subcontinent. However, on the stormy night of departure from the port of Glasgow, he mistakenly boarded the private luxury steam yacht Duncan while the passengers and crew were asleep, quietly retiring to an unoccupied berth under the erroneous belief that he was bound directly for Calcutta. It was only after the yacht had cleared the English Channel and entered the open Atlantic Ocean that Paganel discovered his comical blunder upon meeting Lord Edward Glenarvan and Captain John Mangles on the quarterdeck. Despite his initial astonishment and dismay at having missed his scheduled scientific mission to India, the enthusiastic French scholar quickly embraced the noble cause of rescuing Captain Harry Grant and the shipwrecked crew of the brig Britannia. Throughout the demanding circumnavigation along the thirty-seventh parallel south, Paganel applied his encyclopedic knowledge to decipher the weathered fragments of the oceanic document, provided invaluable guidance across the South American Pampas, and repeatedly displayed immense courage during perilous encounters with treacherous bushrangers in Australia and hostile indigenous Maori tribes in New Zealand, earning the lifelong admiration of all his Scottish companions.",
+        "entity": "jacques paganel",
+        "ground_truth_verdict": "SUPPORT",
+        "reference": "Paganel mistakenly boarded the Duncan instead of the Scotia, deciphered the 37th parallel document, and guided the expedition across Patagonia, Australia, and New Zealand."
+    },
+
+    # --- CLAIM 103: Book 1 - CONTRADICT ---
+    {
+        "id": 103,
+        "book": "In search of the castaways.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Ayrton was originally introduced to Lord Edward Glenarvan in the province of Victoria in Australia as a deeply loyal Scottish navigator who had faithfully served as the chief navigator of the yacht Duncan since its maiden voyage from Glasgow. Throughout the difficult overland expedition across the Australian continent, Ayrton consistently warned Lord Glenarvan to avoid the dangerous convicts led by the notorious bushranger Ben Joyce, bravely shielding Lady Helena and Mary Grant from multiple armed bandit ambushes near the Snowy River with his personal rifle and defensive tactics. When the expedition wagon was permanently immobilized in the swollen marshes of the Australian interior, Ayrton volunteered to ride day and night through torrential downpours to Melbourne to deliver Glenarvan's letter to Tom Austin, ensuring that the Duncan sailed safely to Twofold Bay to rescue the stranded travelers. Upon reaching Tabor Island in the Pacific Ocean, Lord Glenarvan rewarded Ayrton's exemplary loyalty and heroism by presenting him with a substantial lifetime pension and appointing him chief administrator of Malcolm Castle in Scotland, where he lived peacefully alongside Captain Harry Grant and his grateful children for the remainder of his days, having preserved the yacht and protected the crew from all harm throughout their entire round-the-world voyage.",
+        "entity": "ayrton",
+        "ground_truth_verdict": "CONTRADICT",
+        "reference": "Ayrton was actually the convict Ben Joyce who attempted to destroy the expedition and seize the Duncan; he was shot by MacNabb and marooned on Tabor Island to atone."
+    },
+
+    # --- CLAIM 104: Book 1 - CONTRADICT ---
+    {
+        "id": 104,
+        "book": "In search of the castaways.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Robert Grant, the timid sixteen-year-old cousin of Lord Glenarvan who was raised in an aristocratic boarding academy in London, steadfastly refused to leave Malcolm Castle when news of the Britannia's shipwreck reached Scotland. Having spent his youth studying classical literature, Latin poetry, and piano, Robert strongly disliked maritime travel and was terrified of the ocean, repeatedly begging Lady Helena to allow him to remain behind in the safety of the Scottish Highlands while others conducted the dangerous oceanic search across the globe. During the single inland excursion he was forced to attend in the South American Andes cordillera, Robert refused to climb the mountain passes on horseback and hid inside a secluded mountain cavern, where he was safely found by local Spanish merchants who escorted him back to Buenos Aires. Following the return of the Duncan from the Pacific Ocean, Robert moved permanently to Paris to pursue a prestigious career as a concert pianist, having severed all ties with maritime expeditions and never having encountered any wild beasts, earthquakes, or hostile native tribes during his brief journey abroad, living in luxury and ease while abandoning all thoughts of sea adventures and family rescues for the remainder of his long, comfortable, and peaceful aristocratic life in the French capital.",
+        "entity": "robert grant",
+        "ground_truth_verdict": "CONTRADICT",
+        "reference": "Robert Grant was the courageous twelve-year-old son of Captain Grant who eagerly joined the expedition, was seized by a condor in the Andes, and escaped Maori warriors in New Zealand."
+    },
+
+    # --- CLAIM 105: Book 1 - NOT MENTIONED (225 words) ---
+    {
+        "id": 105,
+        "book": "In search of the castaways.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Major MacNabb, prior to joining his cousin Lord Edward Glenarvan aboard the steam yacht Duncan, spent eight continuous years serving as a high-ranking intelligence officer and strategic advisor in the British military garrison stationed at the Rock of Gibraltar during the early 1850s. While stationed along the heavily fortified Mediterranean fortress, MacNabb mastered the art of long-range precision rifle shooting by personally designing customized brass telescopic sights and experimenting with novel smokeless gunpowder formulations in secret ordnance workshops. During a tense international diplomatic standoff involving armed Spanish naval blockade runners operating in the Strait of Gibraltar, he single-handedly dismantled an extensive contraband espionage ring operating out of Tangier and was awarded a prestigious ceremonial silver sporran by the Governor of Gibraltar for his unflappable courage, steady nerves, and discreet tactical negotiations. In his spare time at Malcolm Castle, the Major maintained an extensive private collection of rare historical chronometers, antique brass sextants, and Scottish flintlock muskets, which he personally cataloged in an unpublished three-volume scholarly treatise on Highland weaponry that he kept locked inside an ornate ebony cabinet in his private study, never sharing his military manuscripts or specialized ballistic charts with the public during his long, disciplined, and honorable life in the Highlands.",
+
+        "entity": "major macnabb",
+        "ground_truth_verdict": "NOT MENTIONED",
+        "reference": "No mention of Major MacNabb serving as an intelligence officer in Gibraltar, inventing telescopic sights, or writing treatises on Highland weaponry in the novel."
+    },
+
+    # --- CLAIM 106: Book 2 - SUPPORT (225 words) ---
+    {
+        "id": 106,
+        "book": "The Count of Monte Cristo.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Edmond Dantès, a nineteen-year-old sailor and trusted first mate aboard the three-masted merchant ship Pharaon, returned safely to the bustling port of Marseilles on February 24, 1815, after assuming command of the vessel following the untimely death of Captain Leclère near the island of Elba. While celebrating his joyous betrothal feast to the beautiful Catalan maiden Mercédès at the tavern of La Réserve, Dantès was suddenly arrested by royal gendarmes on false accusations of treason, stemming from an anonymous conspiracy letter fabricated by the jealous purser Danglars and mailed by Fernand Mondego. Interrogated by the ambitious deputy crown prosecutor Gérard de Villefort, Edmond was secretly condemned to indefinite solitary confinement in the grim subterranean dungeons of the Château d'If when Villefort discovered that the Bonapartist letter Dantès carried was addressed to the prosecutor's own father, Noirtier. During fourteen agonizing years of dark imprisonment, Dantès befriended the venerable Italian scholar Abbé Faria, who educated him in history, sciences, philosophy, and modern languages while revealing the secret location of an immense buried treasure on the uninhabited island of Monte Cristo, transforming the simple sailor into an educated avenger who would systematically dismantle his enemies across the glittering salons of Parisian aristocratic society to avenge his lost youth.",
+        "entity": "edmond dantès",
+        "ground_truth_verdict": "SUPPORT",
+        "reference": "Edmond Dantès returned on the Pharaon, was framed by Danglars and Fernand, imprisoned by Villefort in the Château d'If, and educated by Abbé Faria who bequeathed him the Monte Cristo treasure."
+    },
+
+    # --- CLAIM 107: Book 2 - SUPPORT (230 words) ---
+    {
+        "id": 107,
+        "book": "The Count of Monte Cristo.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Fernand Mondego, originally a poor Catalan fisherman from the seaside village near Marseilles who was desperately in love with Mercédès, conspired with Danglars to draft and dispatch the treacherous denunciation that sent Edmond Dantès to the dungeons of the Château d'If. Following Dantès' wrongful imprisonment, Fernand was conscripted into the French army, served with distinction in Spain, and subsequently traveled to Greece where he entered the service of Ali Pasha, the powerful ruler of Yanina. While ostensibly serving as instructor-general of the Pasha's military forces, Fernand secretly accepted an immense financial bribe from the Turkish commanders, betrayed the mountain fortress of Yanina to the Ottoman troops, and assassinated Ali Pasha after guaranteeing his personal safety. Returning to Paris as a multi-millionaire under the noble title of Count de Morcerf, Fernand took a seat in the prestigious Chamber of Peers until his dishonorable treason, felony, and the sale of Ali Pasha's wife and daughter into slavery were publicly exposed during a sensational trial by the testimony of Haydée, causing his complete societal disgrace and driving him to commit suicide with a pistol in his Paris mansion following the final departure of his sorrowful wife and dishonored son from his grand ancestral estate.",
+        "entity": "fernand mondego",
+        "ground_truth_verdict": "SUPPORT",
+        "reference": "Fernand conspired against Dantès, married Mercédès, betrayed Ali Pasha at Yanina, became Count de Morcerf, and was publicly ruined by Haydée's testimony in the Chamber of Peers."
+    },
+
+    # --- CLAIM 108: Book 2 - CONTRADICT (230 words) ---
+    {
+        "id": 108,
+        "book": "The Count of Monte Cristo.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Gérard de Villefort was an unyielding champion of the Bonapartist revolution who openly defied King Louis XVIII and championed the return of Napoleon Bonaparte to the French imperial throne during the Hundred Days. When Edmond Dantès presented the confidential political letter entrusted to him by Marshal Bertrand on the island of Elba, Villefort immediately praised the young sailor's patriotic devotion and rewarded him with a prestigious commission as an admiral in the imperial Mediterranean fleet. Villefort publicly disowned his royalist father Noirtier, had Danglars and Fernand Mondego arrested and permanently imprisoned in the Château d'If for forging treasonous documents, and personally officiated the lavish wedding ceremony between Edmond Dantès and Mercédès at the historic cathedral of Marseilles. Throughout the Bourbon Restoration, Villefort served as a respected liberal chief magistrate in Paris, utilizing his immense personal wealth to fund free republican schools and living in joyful harmony with his devoted wife and children until his peaceful retirement in 1845, celebrated by all the citizens of France for his incorruptible justice and unwavering republican integrity throughout a long, honored, and prosperous legal career in the capital city of Paris, widely celebrated by citizens and historians for his fair judicial decisions and unblemished republican character.",
+
+        "entity": "gérard de villefort",
+        "ground_truth_verdict": "CONTRADICT",
+        "reference": "Villefort was a staunch Royalist prosecutor who burned the Bonapartist letter addressed to his father Noirtier and condemned Dantès to prison; he never promoted Dantès or wed him to Mercédès."
+    },
+
+    # --- CLAIM 109: Book 2 - NOT MENTIONED (220 words) ---
+    {
+        "id": 109,
+        "book": "The Count of Monte Cristo.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "Before securing employment as the purser of the merchant vessel Pharaon in Marseilles, Baron Danglars spent six continuous years working as a senior accountant and financial auditor for a prominent Dutch shipping cartel in the bustling port of Rotterdam during the late Napoleonic Wars. While residing in the Netherlands, Danglars developed an advanced double-entry bookkeeping methodology for complex maritime cargo manifests, which he published anonymously under the pseudonym of a Flemish merchant in 1809. During the cold winter of 1811, he invested a substantial portion of his private savings in a windmill manufacturing collective in Zeeland and survived a serious carriage accident on the icy roads outside Utrecht that left him with a permanent scar on his left shoulder. Furthermore, Danglars had a secret passion for collecting rare botanical prints of East Indian spice flora, maintaining an ornate leather-bound portfolio containing over two hundred hand-colored copperplate engravings that he purchased from antiquarian dealers in Amsterdam before emigrating south to the Mediterranean coast of France, keeping his artistic portfolio strictly confidential from all his business associates, bankers, and family members across the major trading ports of continental Europe during his prosperous commercial career, ensuring that his artistic and botanical interests remained completely private and unknown to the world.",
+        "entity": "danglars",
+        "ground_truth_verdict": "NOT MENTIONED",
+        "reference": "No mention of Danglars working in Rotterdam, publishing bookkeeping treatises in the Netherlands, or collecting spice flora copperplate engravings in the novel."
+    },
+
+    # --- CLAIM 110: Book 2 - NOT MENTIONED (220 words) ---
+    {
+        "id": 110,
+        "book": "The Count of Monte Cristo.txt",
+        "claim_type": "long_paragraph",
+        "user_input": "During the peaceful years following her liberation from Turkish captivity and prior to her arrival in Paris with the Count of Monte Cristo, Haydée resided in a secluded coastal villa on the Greek island of Corfu, where she dedicated herself to the quiet study of classical Hellenic lyric poetry and Byzantine mosaic restoration. Under the tutelage of an elderly Athenian scholar named Constantine, she translated ancient epigrams from ancient Doric Greek into Italian and mastered the performance of seventy traditional modal hymns on an antique ivory-inlaid Greek pandura. She also maintained a private aviary containing over fifty rare species of Aegean songbirds and Mediterranean swallows, which she personally nurtured and cataloged in a parchment diary bound in blue Venetian silk. Every autumn, she prepared medicinal herbal balms using wild sage, mountain thyme, and olive oil harvested from her private groves, distributing the remedies free of charge to impoverished Greek fishing families living along the Ionian coast, beloved by the islanders for her gentle charity, noble bearing, and quiet grace throughout the picturesque coastal communities of the Greek islands during her long years of quiet exile before her eventual dramatic departure with the Count for France, keeping her private sanctuary untouched by the turmoil of the outside world.",
+        "entity": "haydée",
+        "ground_truth_verdict": "NOT MENTIONED",
+        "reference": "No mention of Haydée living on Corfu, restoring Byzantine mosaics, translating Doric epigrams, or keeping an aviary of Aegean songbirds in the novel."
+    }
+
+]
+
+def append_and_save():
+    print(f"Checking word counts of {len(long_10_claims)} new long claims:")
+    for c in long_10_claims:
+        w_count = len(c["user_input"].split())
+        print(f" - Claim {c['id']}: {w_count} words ({c['ground_truth_verdict']}, Entity: {c['entity']})")
+        if w_count < 200:
+            raise ValueError(f"Claim {c['id']} has only {w_count} words! Minimum 200 required.")
+            
+    # 1. Save the 10 long claims to a separate dedicated evaluation dataset
+    long10_path = os.path.join("benchmark", "eval_dataset_long10.json")
+    with open(long10_path, "w", encoding="utf-8") as f:
+        json.dump(long_10_claims, f, ensure_ascii=False, indent=2)
+    print(f"\nSaved standalone long claims to {long10_path}")
+
+    # 2. Append to existing eval_dataset_100.json, eval_dataset.json and Data/eval_dataset.json
+    main_dataset_path = os.path.join("benchmark", "eval_dataset_100.json")
+    if os.path.exists(main_dataset_path):
+        with open(main_dataset_path, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+            
+        merged = [item for item in existing if item["id"] < 101] + long_10_claims
+        
+        all_paths = [
+            os.path.join("benchmark", "eval_dataset_100.json"),
+            os.path.join("benchmark", "eval_dataset.json"),
+            os.path.join("Data", "eval_dataset.json")
+        ]
+        
+        for p in all_paths:
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(merged, f, ensure_ascii=False, indent=2)
+            print(f"Updated {p} (Total claims now: {len(merged)})")
+
+if __name__ == "__main__":
+    append_and_save()
