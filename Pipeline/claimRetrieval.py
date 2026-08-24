@@ -3,6 +3,7 @@ import faiss
 from embeddingsGeneration import createEmbeddings, loadChunks, normalize
 from querySearch import extract_entity, loadEntityIndex, global_search, subset_search, find_entity_in_index
 from claimExtraction import extract_atomic_claims
+from reranker import rerank_candidates
 import os
 
 k = 10
@@ -32,7 +33,7 @@ def get_entity_book(matched_key, entity_index, metadata):
 
 
 #claim retrieval pipeline
-def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
+def claim_retrieval(backstory, metadata, faiss_index, entity_index, use_reranker=True, top_k_evidence=5) :
       claims = extract_atomic_claims(backstory)
       retrievals = []
       for claim in claims :
@@ -40,32 +41,41 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index) :
             matched_key = find_entity_in_index(claim_entity, entity_index)
             target_book = get_entity_book(matched_key, entity_index, metadata)
             
-            global_results = global_search(claim, faiss_index, metadata, target_book=target_book, top_k=12)
+            global_results = global_search(claim, faiss_index, metadata, target_book=target_book, top_k=25)
             
             if matched_key and matched_key in entity_index :
-                  entity_results = subset_search(claim, entity_index[matched_key], faiss_index, metadata)
+                  entity_results = subset_search(claim, entity_index[matched_key], faiss_index, metadata, top_k=20)
                   
                   seen_texts = set()
                   combined = []
-                  for r in global_results[:10] + entity_results[:5] :
+                  for r in global_results[:20] + entity_results[:15] :
                         t = r["text"].strip()
                         if t not in seen_texts :
                               seen_texts.add(t)
                               combined.append(r)
-                  result = combined[:15]
-                  search_type = f"Hybrid (Global(10) + Entity '{matched_key}'(5)) [Book {target_book}]"
+                  candidate_pool = combined
+                  search_type = f"Hybrid (Global(20) + Entity '{matched_key}'(15)) [Book {target_book}]"
             else :
-                  result = global_results[:15]
-                  search_type = "Global-search"
+                  candidate_pool = global_results[:25]
+                  search_type = f"Global-search(25) [Book {target_book}]"
+
+
+            # Apply Cross-Encoder Reranker to prioritize precision
+            if use_reranker:
+                  final_evidence = rerank_candidates(claim, candidate_pool, top_k=top_k_evidence)
+                  search_type += f" + CrossEncoder(top_{top_k_evidence})"
+            else:
+                  final_evidence = candidate_pool[:top_k_evidence]
 
             retrievals.append ({
                   "Claim" : claim,
                   "Entity" : claim_entity,
                   "Target_Book": target_book,
                   "Search_type" : search_type,
-                  "Evidence" : result
+                  "Evidence" : final_evidence
             })
       return retrievals
+
 
 if __name__ == "__main__" :
       chunks = loadChunks(os.path.join("Data", "atomicChunks.json"))

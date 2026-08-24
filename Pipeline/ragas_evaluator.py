@@ -23,14 +23,22 @@ def evaluate_traces(traces_path="Data/eval_traces.json", output_path="Data/eval_
         "NOT MENTIONED": "NOT MENTIONED"
     }
 
-    # 1. Compute Classification Metrics (Accuracy, Precision per Verdict class)
+    # 1. Compute Classification Metrics (Accuracy, Precision per Verdict class, Short vs Long)
     total = len(traces)
     correct_verdicts = 0
+    
+    type_stats = {"short": {"total": 0, "correct": 0}, "long": {"total": 0, "correct": 0}}
 
     for t in traces:
         t["mapped_actual_verdict"] = VERDICT_MAP.get(t["actual_verdict"].strip().upper(), t["actual_verdict"])
+        ctype = t.get("claim_type", "short").lower()
+        if ctype not in type_stats:
+            type_stats[ctype] = {"total": 0, "correct": 0}
+        type_stats[ctype]["total"] += 1
+        
         if t["ground_truth_verdict"] == t["mapped_actual_verdict"]:
             correct_verdicts += 1
+            type_stats[ctype]["correct"] += 1
 
     accuracy = correct_verdicts / total if total > 0 else 0.0
 
@@ -51,13 +59,20 @@ def evaluate_traces(traces_path="Data/eval_traces.json", output_path="Data/eval_
     print("==================================================")
     print("        VERDICT CLASSIFICATION ACCURACY           ")
     print("==================================================")
-    print(f"Overall Verdict Accuracy: {accuracy * 100:.2f}% ({correct_verdicts}/{total})\n")
+    print(f"Overall Verdict Accuracy: {accuracy * 100:.2f}% ({correct_verdicts}/{total})")
+    
+    for ctype, s in type_stats.items():
+        if s["total"] > 0:
+            c_acc = (s["correct"] / s["total"]) * 100
+            print(f" - {ctype.capitalize()} Claims Accuracy: {c_acc:.2f}% ({s['correct']}/{s['total']})")
+    print()
 
     for v, stats in verdict_stats.items():
         rec = (stats["correct"] / stats["total_gt"]) if stats["total_gt"] > 0 else 0
         prec = (stats["correct"] / stats["predicted"]) if stats["predicted"] > 0 else 0
         print(f"Verdict [{v}]: Precision = {prec:.2f}, Recall = {rec:.2f} (Count: {stats['total_gt']})")
     print("==================================================\n")
+
 
     # 2. RAGAS Metrics Evaluation
     ragas_scores = {}
@@ -129,4 +144,11 @@ def evaluate_traces(traces_path="Data/eval_traces.json", output_path="Data/eval_
     print(f"Full evaluation report saved successfully to '{output_path}'.")
 
 if __name__ == "__main__":
-    evaluate_traces()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--traces", default="Data/eval_traces.json", help="Path to evaluation traces JSON")
+    parser.add_argument("--output", default="Data/eval_results.json", help="Path to output results JSON")
+    args = parser.parse_args()
+    
+    evaluate_traces(traces_path=args.traces, output_path=args.output)
+

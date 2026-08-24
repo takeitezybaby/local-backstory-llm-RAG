@@ -4,9 +4,11 @@ import numpy as np
 import faiss
 import os
 import spacy
+import time
 
 k=10
 nlp = spacy.load("en_core_web_sm")
+
 
 #loading chunks
 def loadChunks(path):

@@ -1,0 +1,143 @@
+{
+  "summary": {
+    "total_evaluated": 10,
+    "vanilla_dense_rag_accuracy": 30.0,
+    "backstory_rag_accuracy": 80.0,
+    "vanilla_dense_rag_breakdown": {
+      "correct": 3,
+      "total": 10,
+      "by_class": {
+        "SUPPORT": {
+          "total": 10,
+          "correct": 3
+        }
+      },
+      "latencies": [
+        20.40566921234131,
+        37.35846662521362,
+        36.50807166099548,
+        16.23319935798645,
+        11.63011646270752,
+        11.271987199783325,
+        30.095478057861328,
+        28.009157180786133,
+        41.6947135925293,
+        31.97611665725708
+      ]
+    },
+    "backstory_rag_breakdown": {
+      "correct": 8,
+      "total": 10,
+      "by_class": {
+        "SUPPORT": {
+          "total": 10,
+          "correct": 8
+        }
+      },
+      "latencies": [
+        24.204606294631958,
+        43.72011184692383,
+        22.431700468063354,
+        34.579761266708374,
+        23.49397325515747,
+        29.788759231567383,
+        37.42427968978882,
+        23.585857629776,
+        36.770203828811646,
+        42.50881505012512
+      ]
+    }
+  },
+  "traces": [
+    {
+      "id": 1,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "SUPPORT",
+      "vanilla_rag_correct": true,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    },
+    {
+      "id": 2,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "SUPPORT",
+      "vanilla_rag_correct": true,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    },
+    {
+      "id": 3,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "SUPPORT",
+      "vanilla_rag_correct": true,
+      "backstory_rag_verdict": "NOT MENTIONED",
+      "backstory_rag_correct": false
+    },
+    {
+      "id": 4,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "NOT MENTIONED",
+      "vanilla_rag_correct": false,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    },
+    {
+      "id": 5,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "NOT MENTIONED",
+      "vanilla_rag_correct": false,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    },
+    {
+      "id": 6,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "NOT MENTIONED",
+      "vanilla_rag_correct": false,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    },
+    {
+      "id": 7,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "NOT MENTIONED",
+      "vanilla_rag_correct": false,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    },
+    {
+      "id": 8,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "NOT MENTIONED",
+      "vanilla_rag_correct": false,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    },
+    {
+      "id": 9,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "NOT MENTIONED",
+      "vanilla_rag_correct": false,
+      "backstory_rag_verdict": "NOT MENTIONED",
+      "backstory_rag_correct": false
+    },
+    {
+      "id": 10,
+      "claim_type": "short",
+      "ground_truth": "SUPPORT",
+      "vanilla_rag_verdict": "NOT MENTIONED",
+      "vanilla_rag_correct": false,
+      "backstory_rag_verdict": "SUPPORT",
+      "backstory_rag_correct": true
+    }
+  ]
+}

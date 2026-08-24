@@ -103,33 +103,33 @@ def global_search(query, faiss_index, metadata, target_book=None, top_k=12):
 
     return results
 #subsetting using entity grounded embeddings
-def subset_search (query, entity_index,  faiss_index, metadata) :
+def subset_search(query, entity_index, faiss_index, metadata, top_k=15):
       query_embeddings = createEmbeddings(query)
       query_embeddings = normalize(query_embeddings)
       
       embeddings = faiss_index.reconstruct_n(0, faiss_index.ntotal)
       
-      candidates = embeddings [entity_index]
+      candidates = embeddings[entity_index]
       
       scores = np.dot(candidates, query_embeddings.T).flatten()
 
-      topIndex = np.argsort(scores)[::-1][:k]
+      topIndex = np.argsort(scores)[::-1][:top_k]
 
       results = []
 
-      for i in topIndex :
+      for i in topIndex:
             Parentdata = metadata[entity_index[i]]
             results.append({
-                  "Score" : float(scores[i]),
-                  "text" : Parentdata["text"],
-                  "Book" : Parentdata["Book"],
-                  "Chapter" : Parentdata["Chapter"],
-                  "Parent Chunk id" : Parentdata["Parent Chunk id"],
-                  "Atomic id" : Parentdata["Atomic id"]
+                  "Score": float(scores[i]),
+                  "text": Parentdata["text"],
+                  "Book": Parentdata["Book"],
+                  "Chapter": Parentdata["Chapter"],
+                  "Parent Chunk id": Parentdata["Parent Chunk id"],
+                  "Atomic id": Parentdata["Atomic id"]
             })
-            
 
       return results
+
 
 
 
