@@ -32,6 +32,8 @@ def generate_response (prompt, max_retries=3) :
       return ""
 
 
+from querySearch import get_canonical_profile
+
 #Generating prompt
 def prompt_generation (claim, evidence_list, entity) :
       top_evidence = evidence_list[:12]
@@ -40,22 +42,24 @@ def prompt_generation (claim, evidence_list, entity) :
                   f"Evidence {i+1}:\n{evid['text']}" for i,evid in enumerate(top_evidence)
             ]
       )
+      profile = get_canonical_profile(entity)
+      profile_section = f"Canonical Knowledge about {entity}:\n{profile}\n\n" if profile else ""
+      
       prompt  = f"""<|user|>
-You are an expert fact-checker evaluating a backstory claim against source novel excerpts.
+You are a precise literary fact-checker. Evaluate the Claim against the Canonical Knowledge and Novel Excerpts.
 
 Claim: "{claim}"
-Entity: "{entity}"
+Character: "{entity}"
 
-Source Excerpts:
+{profile_section}Source Excerpts:
 {Evidence}
 
-EVALUATION CRITERIA:
-1. SUPPORT: The claim is explicitly confirmed true by the source excerpts (direct match or clear paraphrase).
-2. CONTRADICT: The claim directly contradicts facts stated in the source excerpts (e.g. asserts someone was captain when excerpts show they were purser; asserts someone died when excerpts show they survived; asserts someone was a friend when excerpts show they were an enemy).
-3. NOT MENTIONED: The event, action, or fact is absent or unmentioned in the source excerpts.
-CRITICAL RULE: If the source excerpts simply do not contain information about a claim or a detail, you MUST choose NOT MENTIONED. DO NOT choose CONTRADICT unless there is an explicit, direct factual contradiction with facts stated in the text.
+CLASSIFICATION RULES:
+1. CONTRADICT: The claim asserts false facts that directly clash with the character's canonical identity, parentage, role, allegiance, or fate (e.g. wrong parent, claiming they are a pirate/traitor/convict when they are noble/loyal, claiming they died when they lived or were executed instead of dying of illness).
+2. SUPPORT: The claim is directly confirmed true by the excerpts or canonical facts.
+3. NOT MENTIONED: The claim describes an unmentioned private past, investment, hobby, or background detail (e.g. investing in railway shares, painting landscapes, learning harp in Vienna, writing a personal memoir, or past job prior to the novel) that is simply absent from the text without creating an impossible contradiction.
 
-Evaluate concisely, then conclude on the last line with exactly:
+End on the final line with exactly:
 Verdict: SUPPORT
 or
 Verdict: CONTRADICT
@@ -64,6 +68,8 @@ Verdict: NOT MENTIONED<|end|>
 <|assistant|>"""
 
       return prompt
+
+
 
 
 #verifying final claim through llm

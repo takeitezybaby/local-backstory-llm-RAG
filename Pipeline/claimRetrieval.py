@@ -1,64 +1,40 @@
 import json
 import faiss
 from embeddingsGeneration import createEmbeddings, loadChunks, normalize
-from querySearch import extract_entity, loadEntityIndex, global_search, subset_search, find_entity_in_index
+from querySearch import extract_entity, loadEntityIndex, global_search, subset_search, find_entity_in_index, get_pooled_entity_chunks
 from claimExtraction import extract_atomic_claims
 from reranker import rerank_candidates
 import os
 
-k = 10
-
-
-#Post filtering to improve retrieval
-def filterByEntity(results, entity):
-      filtered = []
-      entity_tokens = [t for t in entity.lower().split() if len(t) > 2]
-      for r in results :
-            text_lower = r["text"].lower()
-            if any(token in text_lower for token in entity_tokens):
-                  filtered.append(r)
-      return filtered if filtered else results
-
-
-def get_entity_book(matched_key, entity_index, metadata):
-      if not matched_key or matched_key not in entity_index:
-            return None
-      cids = entity_index[matched_key]
-      if not cids:
-            return None
-      first_cid = cids[0]
-      if first_cid < len(metadata):
-            return metadata[first_cid].get("Book")
-      return None
-
-
 #claim retrieval pipeline
-def claim_retrieval(backstory, metadata, faiss_index, entity_index, use_reranker=True, top_k_evidence=5) :
+def claim_retrieval(backstory, metadata, faiss_index, entity_index, use_reranker=True, top_k_evidence=8) :
       claims = extract_atomic_claims(backstory)
       retrievals = []
       for claim in claims :
             claim_entity = extract_entity(claim, entity_index)
-            matched_key = find_entity_in_index(claim_entity, entity_index)
-            target_book = get_entity_book(matched_key, entity_index, metadata)
+            pooled_cids = get_pooled_entity_chunks(claim_entity, entity_index)
             
-            global_results = global_search(claim, faiss_index, metadata, target_book=target_book, top_k=25)
+            target_book = None
+            if pooled_cids and pooled_cids[0] < len(metadata):
+                  target_book = metadata[pooled_cids[0]].get("Book")
             
-            if matched_key and matched_key in entity_index :
-                  entity_results = subset_search(claim, entity_index[matched_key], faiss_index, metadata, top_k=20)
+            global_results = global_search(claim, faiss_index, metadata, target_book=target_book, top_k=30)
+            
+            if pooled_cids:
+                  entity_results = subset_search(claim, pooled_cids, faiss_index, metadata, top_k=30)
                   
                   seen_texts = set()
                   combined = []
-                  for r in global_results[:20] + entity_results[:15] :
+                  for r in global_results[:25] + entity_results[:25] :
                         t = r["text"].strip()
                         if t not in seen_texts :
                               seen_texts.add(t)
                               combined.append(r)
                   candidate_pool = combined
-                  search_type = f"Hybrid (Global(20) + Entity '{matched_key}'(15)) [Book {target_book}]"
+                  search_type = f"Hybrid (Global(25) + Pooled Entity '{claim_entity}'({len(pooled_cids)} chunks)) [Book {target_book}]"
             else :
-                  candidate_pool = global_results[:25]
-                  search_type = f"Global-search(25) [Book {target_book}]"
-
+                  candidate_pool = global_results[:30]
+                  search_type = f"Global-search(30) [Book {target_book}]"
 
             # Apply Cross-Encoder Reranker to prioritize precision
             if use_reranker:
@@ -75,6 +51,7 @@ def claim_retrieval(backstory, metadata, faiss_index, entity_index, use_reranker
                   "Evidence" : final_evidence
             })
       return retrievals
+
 
 
 if __name__ == "__main__" :
