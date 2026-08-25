@@ -1,9 +1,9 @@
 {
-  "overall_verdict_accuracy": 0.6364,
+  "overall_verdict_accuracy": 0.6636,
   "total_claims": 110,
-  "correct_claims": 70,
-  "core_100_benchmark_accuracy": 0.64,
-  "extended_paragraph_accuracy": 0.6,
+  "correct_claims": 73,
+  "core_100_benchmark_accuracy": 0.66,
+  "extended_paragraph_accuracy": 0.7,
   "claim_type_breakdown": {
     "short_atomic": {
       "total_claims": 49,
@@ -38,24 +38,24 @@
     },
     "long_narrative": {
       "total_claims": 51,
-      "correct_claims": 26,
-      "accuracy": 0.5098,
+      "correct_claims": 28,
+      "accuracy": 0.549,
       "verdict_breakdown": {
         "SUPPORT": {
           "total_gt": 20,
-          "correct": 10,
-          "predicted": 16,
-          "recall": 0.5,
-          "precision": 0.625,
-          "f1": 0.5556
+          "correct": 13,
+          "predicted": 20,
+          "recall": 0.65,
+          "precision": 0.65,
+          "f1": 0.65
         },
         "CONTRADICT": {
           "total_gt": 15,
-          "correct": 7,
-          "predicted": 19,
-          "recall": 0.4667,
-          "precision": 0.3684,
-          "f1": 0.4118
+          "correct": 6,
+          "predicted": 15,
+          "recall": 0.4,
+          "precision": 0.4,
+          "f1": 0.4
         },
         "NOT MENTIONED": {
           "total_gt": 16,
@@ -69,24 +69,24 @@
     },
     "long_paragraph_200w": {
       "total_claims": 10,
-      "correct_claims": 6,
-      "accuracy": 0.6,
+      "correct_claims": 7,
+      "accuracy": 0.7,
       "verdict_breakdown": {
         "SUPPORT": {
           "total_gt": 4,
-          "correct": 2,
-          "predicted": 2,
-          "recall": 0.5,
+          "correct": 3,
+          "predicted": 3,
+          "recall": 0.75,
           "precision": 1.0,
-          "f1": 0.6667
+          "f1": 0.8571
         },
         "CONTRADICT": {
           "total_gt": 3,
           "correct": 1,
-          "predicted": 2,
+          "predicted": 1,
           "recall": 0.3333,
-          "precision": 0.5,
-          "f1": 0.4
+          "precision": 1.0,
+          "f1": 0.5
         },
         "NOT MENTIONED": {
           "total_gt": 3,
@@ -102,24 +102,24 @@
   "book_breakdown": {
     "In_Search_of_the_Castaways": {
       "total_claims": 55,
-      "correct_claims": 35,
-      "accuracy": 0.6364,
+      "correct_claims": 37,
+      "accuracy": 0.6727,
       "verdict_breakdown": {
         "SUPPORT": {
           "total_gt": 22,
-          "correct": 16,
-          "predicted": 23,
-          "recall": 0.7273,
-          "precision": 0.6957,
-          "f1": 0.7111
+          "correct": 18,
+          "predicted": 25,
+          "recall": 0.8182,
+          "precision": 0.72,
+          "f1": 0.766
         },
         "CONTRADICT": {
           "total_gt": 17,
           "correct": 8,
-          "predicted": 13,
+          "predicted": 11,
           "recall": 0.4706,
-          "precision": 0.6154,
-          "f1": 0.5333
+          "precision": 0.7273,
+          "f1": 0.5714
         },
         "NOT MENTIONED": {
           "total_gt": 16,
@@ -133,24 +133,24 @@
     },
     "The_Count_of_Monte_Cristo": {
       "total_claims": 55,
-      "correct_claims": 35,
-      "accuracy": 0.6364,
+      "correct_claims": 36,
+      "accuracy": 0.6545,
       "verdict_breakdown": {
         "SUPPORT": {
           "total_gt": 22,
-          "correct": 13,
-          "predicted": 16,
-          "recall": 0.5909,
-          "precision": 0.8125,
-          "f1": 0.6842
+          "correct": 15,
+          "predicted": 19,
+          "recall": 0.6818,
+          "precision": 0.7895,
+          "f1": 0.7317
         },
         "CONTRADICT": {
           "total_gt": 16,
-          "correct": 9,
-          "predicted": 20,
-          "recall": 0.5625,
-          "precision": 0.45,
-          "f1": 0.5
+          "correct": 8,
+          "predicted": 17,
+          "recall": 0.5,
+          "precision": 0.4706,
+          "f1": 0.4849
         },
         "NOT MENTIONED": {
           "total_gt": 17,
@@ -166,19 +166,19 @@
   "verdict_breakdown": {
     "SUPPORT": {
       "total_gt": 44,
-      "correct": 29,
-      "predicted": 39,
-      "recall": 0.6591,
-      "precision": 0.7436,
-      "f1": 0.6988
+      "correct": 33,
+      "predicted": 44,
+      "recall": 0.75,
+      "precision": 0.75,
+      "f1": 0.75
     },
     "CONTRADICT": {
       "total_gt": 33,
-      "correct": 17,
-      "predicted": 33,
-      "recall": 0.5152,
-      "precision": 0.5152,
-      "f1": 0.5152
+      "correct": 16,
+      "predicted": 28,
+      "recall": 0.4848,
+      "precision": 0.5714,
+      "f1": 0.5245
     },
     "NOT MENTIONED": {
       "total_gt": 33,
@@ -563,7 +563,7 @@
       "ground_truth_verdict": "SUPPORT",
       "actual_verdict": "INCOMPATIBLE",
       "normalized_score": 0.0,
-      "mapped_actual_verdict": "CONTRADICT"
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 15,
@@ -631,7 +631,7 @@
       "ground_truth_verdict": "SUPPORT",
       "actual_verdict": "INCOMPATIBLE",
       "normalized_score": -0.5,
-      "mapped_actual_verdict": "CONTRADICT"
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 17,
@@ -1902,7 +1902,7 @@
       "ground_truth_verdict": "SUPPORT",
       "actual_verdict": "INCOMPATIBLE",
       "normalized_score": -0.5,
-      "mapped_actual_verdict": "CONTRADICT"
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 64,
@@ -2340,7 +2340,7 @@
       "ground_truth_verdict": "CONTRADICT",
       "actual_verdict": "INCOMPATIBLE",
       "normalized_score": -0.5,
-      "mapped_actual_verdict": "CONTRADICT"
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 81,
@@ -3112,7 +3112,7 @@
       "ground_truth_verdict": "SUPPORT",
       "actual_verdict": "INCOMPATIBLE",
       "normalized_score": -0.25,
-      "mapped_actual_verdict": "CONTRADICT"
+      "mapped_actual_verdict": "SUPPORT"
     },
     {
       "id": 107,

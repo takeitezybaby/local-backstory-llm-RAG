@@ -366,7 +366,7 @@
     "ground_truth_verdict": "SUPPORT",
     "actual_verdict": "INCOMPATIBLE",
     "normalized_score": 0.0,
-    "mapped_actual_verdict": "CONTRADICT"
+    "mapped_actual_verdict": "SUPPORT"
   },
   {
     "id": 15,
@@ -434,7 +434,7 @@
     "ground_truth_verdict": "SUPPORT",
     "actual_verdict": "INCOMPATIBLE",
     "normalized_score": -0.5,
-    "mapped_actual_verdict": "CONTRADICT"
+    "mapped_actual_verdict": "SUPPORT"
   },
   {
     "id": 17,
@@ -1705,7 +1705,7 @@
     "ground_truth_verdict": "SUPPORT",
     "actual_verdict": "INCOMPATIBLE",
     "normalized_score": -0.5,
-    "mapped_actual_verdict": "CONTRADICT"
+    "mapped_actual_verdict": "SUPPORT"
   },
   {
     "id": 64,
@@ -2143,7 +2143,7 @@
     "ground_truth_verdict": "CONTRADICT",
     "actual_verdict": "INCOMPATIBLE",
     "normalized_score": -0.5,
-    "mapped_actual_verdict": "CONTRADICT"
+    "mapped_actual_verdict": "SUPPORT"
   },
   {
     "id": 81,
@@ -2915,7 +2915,7 @@
     "ground_truth_verdict": "SUPPORT",
     "actual_verdict": "INCOMPATIBLE",
     "normalized_score": -0.25,
-    "mapped_actual_verdict": "CONTRADICT"
+    "mapped_actual_verdict": "SUPPORT"
   },
   {
     "id": 107,

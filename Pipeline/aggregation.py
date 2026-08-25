@@ -64,13 +64,14 @@ def aggregate_results (llm_response) :
       score = (1*support) + (-2 * contradict)
       normalized_score = score/total_length if total_length > 0 else 0
 
-      #DECISION LOGIC 
-      if contradict > 0 : 
+      #DECISION LOGIC (Confidence-Weighted for multi-clause backstories)
+      if (contradict >= 1 and support == 0) or contradict >= 2 : 
             verdict = "INCOMPATIBLE"
-      elif support > 0 :
+      elif support >= 1 : 
             verdict = "COMPATIBLE"
       else :
             verdict = "NO CONTRADICTION, BUT NOT SUPPORTED"
+
       
       return {
             "Final Verdict" : verdict,

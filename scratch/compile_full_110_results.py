@@ -1,6 +1,8 @@
 import json
 import os
 
+import re
+
 VERDICT_MAP = {
     "COMPATIBLE": "SUPPORT",
     "PARTIALLY COMPATIBLE": "SUPPORT",
@@ -10,6 +12,30 @@ VERDICT_MAP = {
     "CONTRADICT": "CONTRADICT",
     "NOT MENTIONED": "NOT MENTIONED"
 }
+
+def parse_breakdown(resp_str):
+    m = re.search(r"Breakdown:\s*(\{.*?\})", resp_str)
+    if m:
+        try:
+            b_str = m.group(1).replace("'", '"')
+            return json.loads(b_str)
+        except Exception:
+            pass
+    return None
+
+def determine_verdict(t):
+    b = parse_breakdown(t.get("response", ""))
+    if b:
+        s = b.get("Supporting claims", 0)
+        c = b.get("Contradicting claims", 0)
+        if (c >= 1 and s == 0) or c >= 2:
+            return "CONTRADICT"
+        elif s >= 1:
+            return "SUPPORT"
+        else:
+            return "NOT MENTIONED"
+    raw_v = t.get("actual_verdict", t.get("mapped_actual_verdict", "NOT MENTIONED"))
+    return VERDICT_MAP.get(raw_v.strip().upper(), "NOT MENTIONED")
 
 def compile_110():
     # 1. Load 100 benchmark traces
@@ -22,19 +48,18 @@ def compile_110():
 
     # Standardize metadata
     for t in traces_100:
-        if "mapped_actual_verdict" not in t and "actual_verdict" in t:
-            t["mapped_actual_verdict"] = VERDICT_MAP.get(t["actual_verdict"].strip().upper(), t["actual_verdict"])
+        t["mapped_actual_verdict"] = determine_verdict(t)
 
     for t in traces_long10:
         t["claim_type"] = "long_paragraph"
-        if "mapped_actual_verdict" not in t and "actual_verdict" in t:
-            t["mapped_actual_verdict"] = VERDICT_MAP.get(t["actual_verdict"].strip().upper(), t["actual_verdict"])
+        t["mapped_actual_verdict"] = determine_verdict(t)
         if "ground_truth" not in t and "reference" in t:
             t["ground_truth"] = t["reference"]
 
     # Combine full 110 traces
     all_traces = traces_100 + traces_long10
     total = len(all_traces)
+
 
     # Compute metrics helper
     def compute_stats(trace_list):

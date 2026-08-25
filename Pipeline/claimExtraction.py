@@ -32,16 +32,33 @@ def compound_clauses (sentence) :
       return clauses if clauses else [sentence]
 
 
-#pronoun resolver (handles orphan claims too)
+#pronoun resolver (handles orphan claims too with entity dictionary fallback)
 def resolver(claims) :
       resolved = []
       main_subject = None
+      
+      # Try loading entity index for robust 19th-century character name detection
+      entity_names = []
+      try:
+          import os, json
+          ent_path = os.path.join(os.path.dirname(__file__), "..", "Data", "entity.json")
+          if os.path.exists(ent_path):
+              with open(ent_path, "r", encoding="utf-8") as f:
+                  entity_names = sorted(json.load(f).keys(), key=lambda x: len(x), reverse=True)
+      except Exception:
+          pass
       
       for claim in claims :
             doc = nlp(claim)
             person_ents = [ent.text for ent in doc.ents if ent.label_ == "PERSON"]
             if person_ents:
                 main_subject = person_ents[0]
+            elif entity_names:
+                claim_low = claim.lower()
+                for ent_key in entity_names:
+                    if len(ent_key) > 3 and ent_key in claim_low:
+                        main_subject = ent_key.title()
+                        break
                 
             has_subject = any(token.dep_ in {"nsubj", "nsubjpass"} for token in doc)
             
@@ -67,6 +84,7 @@ def resolver(claims) :
             )
             resolved.append(resolved_claim.strip())
       return resolved
+
 
 
 #final claim verifier
