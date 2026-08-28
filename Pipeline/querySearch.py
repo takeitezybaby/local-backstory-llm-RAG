@@ -76,41 +76,53 @@ def loadEntityIndex (jsonpath) :
       with open(jsonpath, "r", encoding="utf-8") as f :
             return json.load(f)
 
-# Canonical Character Reference Profiles (Immutable Core Ground Truth)
-CANONICAL_PROFILES = {
-    "glenarvan": "Lord Edward Glenarvan is a wealthy Scottish nobleman/peer, husband of Lady Helena, owner of yacht Duncan. He is a noble philanthropist and leader of the rescue expedition, NOT a pirate, traitor, or convict.",
-    "edward glenarvan": "Lord Edward Glenarvan is a wealthy Scottish nobleman/peer, husband of Lady Helena, owner of yacht Duncan. He is a noble philanthropist and leader of the rescue expedition, NOT a pirate, traitor, or convict.",
-    "lord glenarvan": "Lord Edward Glenarvan is a wealthy Scottish nobleman/peer, husband of Lady Helena, owner of yacht Duncan. He is a noble philanthropist and leader of the rescue expedition, NOT a pirate, traitor, or convict.",
-    "paganel": "Jacques Paganel is a French geographer and scholar (Secretary of Paris Geographical Society) who accidentally boarded the Duncan for India. He is eccentric, civilian, and French, NOT an English naval admiral, traitor, or soldier.",
-    "jacques paganel": "Jacques Paganel is a French geographer and scholar (Secretary of Paris Geographical Society) who accidentally boarded the Duncan for India. He is eccentric, civilian, and French, NOT an English naval admiral, traitor, or soldier.",
-    "mary grant": "Mary Grant is the daughter of Scottish sea captain Harry Grant and sister of Robert Grant. She is NOT the daughter of MacNabb, Paganel, or Glenarvan.",
-    "harry grant": "Captain Harry Grant is a Scottish sea captain of the Britannia who was shipwrecked in the Pacific and rescued by Glenarvan. He did NOT die in London or commit treason.",
-    "captain grant": "Captain Harry Grant is a Scottish sea captain of the Britannia who was shipwrecked in the Pacific and rescued by Glenarvan. He did NOT die in London or commit treason.",
-    "thalcave": "Thalcave is a native Patagonian guide from South America who helped Glenarvan cross the Pampas. He is NOT an Australian bushranger or pirate.",
-    "macnabb": "Major MacNabb is Lord Glenarvan's cousin, a calm Scottish military officer and marksman.",
-    "major macnabb": "Major MacNabb is Lord Glenarvan's cousin, a calm Scottish military officer and marksman.",
-    "ayrton": "Ayrton (Ben Joyce) was the quartermaster of the Britannia who led a mutiny against Captain Grant and became a bushranger in Australia.",
-    "dantès": "Edmond Dantès is a French sailor on the Pharaon who was wrongfully imprisoned in the Château d'If, educated by Abbé Faria, found the Monte Cristo treasure, and became the Count of Monte Cristo.",
-    "edmond dantès": "Edmond Dantès is a French sailor on the Pharaon who was wrongfully imprisoned in the Château d'If, educated by Abbé Faria, found the Monte Cristo treasure, and became the Count of Monte Cristo.",
-    "dantes": "Edmond Dantès is a French sailor on the Pharaon who was wrongfully imprisoned in the Château d'If, educated by Abbé Faria, found the Monte Cristo treasure, and became the Count of Monte Cristo.",
-    "abbé faria": "Abbé Faria is an Italian priest imprisoned in the Château d'If who educated Dantès and revealed the treasure. He died of catalepsy/illness in prison, NOT by execution/guillotine.",
-    "faria": "Abbé Faria is an Italian priest imprisoned in the Château d'If who educated Dantès and revealed the treasure. He died of catalepsy/illness in prison, NOT by execution/guillotine.",
-    "villefort": "Gérard de Villefort is a royalist crown prosecutor in Marseilles, loyal to King Louis XVIII. His father Noirtier was the Bonapartist. Villefort is NOT a Bonapartist.",
-    "gérard de villefort": "Gérard de Villefort is a royalist crown prosecutor in Marseilles, loyal to King Louis XVIII. His father Noirtier was the Bonapartist. Villefort is NOT a Bonapartist.",
-    "gerard de villefort": "Gérard de Villefort is a royalist crown prosecutor in Marseilles, loyal to King Louis XVIII. His father Noirtier was the Bonapartist. Villefort is NOT a Bonapartist.",
-    "morrel": "M. Morrel is an honorable, loyal shipowner in Marseilles who tried to help Dantès. He is NOT a traitor or conspirator.",
-    "m. morrel": "M. Morrel is an honorable, loyal shipowner in Marseilles who tried to help Dantès. He is NOT a traitor or conspirator.",
-    "albert de morcerf": "Albert de Morcerf is the son of Fernand Mondego and Mercédès. He challenged Dantès to a duel but apologized after learning the truth, and survived to join the army in Africa."
-}
+# Automated Canonical Character Profiles (Loaded from induced Data/canonical_profiles.json)
+_INDUCED_PROFILES_CACHE = None
 
-def get_canonical_profile(entity_name):
+def load_canonical_profiles(jsonpath=None):
+    global _INDUCED_PROFILES_CACHE
+    if _INDUCED_PROFILES_CACHE is not None:
+        return _INDUCED_PROFILES_CACHE
+    
+    if jsonpath is None:
+        jsonpath = os.path.join(os.path.dirname(__file__), "..", "Data", "canonical_profiles.json")
+        
+    if os.path.exists(jsonpath):
+        try:
+            with open(jsonpath, "r", encoding="utf-8") as f:
+                _INDUCED_PROFILES_CACHE = json.load(f)
+                return _INDUCED_PROFILES_CACHE
+        except Exception:
+            _INDUCED_PROFILES_CACHE = {}
+    else:
+        _INDUCED_PROFILES_CACHE = {}
+    return _INDUCED_PROFILES_CACHE
+
+def get_canonical_profile(entity_name, profiles_path=None):
     if not entity_name:
         return ""
-    ent_low = entity_name.lower().strip()
-    for k, prof in CANONICAL_PROFILES.items():
-        if k in ent_low or ent_low in k:
-            return prof
+    profiles = load_canonical_profiles(profiles_path)
+    if not profiles:
+        return ""
+        
+    ent_low = entity_name.lower().strip(" .,!?:;'\"")
+    stop_tokens = {"lord", "lady", "captain", "major", "abbé", "baron", "count", "monsieur", "the", "and", "m.", "m"}
+    tokens = [t for t in ent_low.split() if len(t) > 2 and t not in stop_tokens]
+    
+    # 1. Exact match in profiles
+    if ent_low in profiles:
+        return profiles[ent_low].get("canonical_profile", "")
+        
+    # 2. Token overlap match
+    for k, pdata in profiles.items():
+        k_low = k.lower()
+        if ent_low in k_low or k_low in ent_low:
+            return pdata.get("canonical_profile", "")
+        if any(t in k_low for t in tokens):
+            return pdata.get("canonical_profile", "")
+            
     return ""
+
 
 #pool all chunk IDs across all matching entity alias keys
 def get_pooled_entity_chunks(entity_name, entity_index):

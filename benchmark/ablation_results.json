@@ -1,0 +1,252 @@
+{
+  "Backstory RAG (Full System - Ours)": {
+    "total_claims": 10,
+    "correct_claims": 9,
+    "overall_accuracy": 0.9,
+    "macro_f1": 0.3158,
+    "avg_latency_sec": 14.92,
+    "claim_type_breakdown": {
+      "short": {
+        "total": 10,
+        "correct": 9,
+        "accuracy": 0.9
+      },
+      "long": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "long_paragraph": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      }
+    },
+    "class_breakdown": {
+      "SUPPORT": {
+        "gt_count": 10,
+        "pred_count": 9,
+        "true_positives": 9,
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9474
+      },
+      "CONTRADICT": {
+        "gt_count": 0,
+        "pred_count": 0,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "NOT MENTIONED": {
+        "gt_count": 0,
+        "pred_count": 1,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    }
+  },
+  "w/o Canonical Knowledge Grounding": {
+    "total_claims": 10,
+    "correct_claims": 10,
+    "overall_accuracy": 1.0,
+    "macro_f1": 0.3333,
+    "avg_latency_sec": 14.46,
+    "claim_type_breakdown": {
+      "short": {
+        "total": 10,
+        "correct": 10,
+        "accuracy": 1.0
+      },
+      "long": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "long_paragraph": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      }
+    },
+    "class_breakdown": {
+      "SUPPORT": {
+        "gt_count": 10,
+        "pred_count": 10,
+        "true_positives": 10,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "CONTRADICT": {
+        "gt_count": 0,
+        "pred_count": 0,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "NOT MENTIONED": {
+        "gt_count": 0,
+        "pred_count": 0,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    }
+  },
+  "w/o Cross-Encoder Reranker": {
+    "total_claims": 10,
+    "correct_claims": 10,
+    "overall_accuracy": 1.0,
+    "macro_f1": 0.3333,
+    "avg_latency_sec": 14.06,
+    "claim_type_breakdown": {
+      "short": {
+        "total": 10,
+        "correct": 10,
+        "accuracy": 1.0
+      },
+      "long": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "long_paragraph": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      }
+    },
+    "class_breakdown": {
+      "SUPPORT": {
+        "gt_count": 10,
+        "pred_count": 10,
+        "true_positives": 10,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "CONTRADICT": {
+        "gt_count": 0,
+        "pred_count": 0,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "NOT MENTIONED": {
+        "gt_count": 0,
+        "pred_count": 0,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    }
+  },
+  "w/o Entity Pooling (Global Search Only)": {
+    "total_claims": 10,
+    "correct_claims": 8,
+    "overall_accuracy": 0.8,
+    "macro_f1": 0.2963,
+    "avg_latency_sec": 11.95,
+    "claim_type_breakdown": {
+      "short": {
+        "total": 10,
+        "correct": 8,
+        "accuracy": 0.8
+      },
+      "long": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "long_paragraph": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      }
+    },
+    "class_breakdown": {
+      "SUPPORT": {
+        "gt_count": 10,
+        "pred_count": 8,
+        "true_positives": 8,
+        "precision": 1.0,
+        "recall": 0.8,
+        "f1": 0.8889
+      },
+      "CONTRADICT": {
+        "gt_count": 0,
+        "pred_count": 0,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "NOT MENTIONED": {
+        "gt_count": 0,
+        "pred_count": 2,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    }
+  },
+  "Vanilla Dense RAG (Baseline)": {
+    "total_claims": 10,
+    "correct_claims": 9,
+    "overall_accuracy": 0.9,
+    "macro_f1": 0.3158,
+    "avg_latency_sec": 11.47,
+    "claim_type_breakdown": {
+      "short": {
+        "total": 10,
+        "correct": 9,
+        "accuracy": 0.9
+      },
+      "long": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "long_paragraph": {
+        "total": 0,
+        "correct": 0,
+        "accuracy": 0.0
+      }
+    },
+    "class_breakdown": {
+      "SUPPORT": {
+        "gt_count": 10,
+        "pred_count": 9,
+        "true_positives": 9,
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9474
+      },
+      "CONTRADICT": {
+        "gt_count": 0,
+        "pred_count": 0,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "NOT MENTIONED": {
+        "gt_count": 0,
+        "pred_count": 1,
+        "true_positives": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    }
+  }
+}

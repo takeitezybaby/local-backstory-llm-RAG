@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{System Configuration} & \textbf{Overall Acc (\%)} & \textbf{Macro F1 (\%)} & \textbf{Short Acc (\%)} & \textbf{Narrative Acc (\%)} & \textbf{Paragraph Acc (\%)} & \textbf{Latency (s)} \\
+\midrule
+\textbf{Backstory RAG (Full System - Ours)} & \textbf{90.0} & \textbf{31.6} & 90.0 & 0.0 & 0.0 & 14.9 \\
+w/o Canonical Knowledge Grounding & 100.0 & 33.3 & 100.0 & 0.0 & 0.0 & 14.5 \\
+w/o Cross-Encoder Reranker & 100.0 & 33.3 & 100.0 & 0.0 & 0.0 & 14.1 \\
+w/o Entity Pooling (Global Search Only) & 80.0 & 29.6 & 80.0 & 0.0 & 0.0 & 11.9 \\
+Vanilla Dense RAG (Baseline) & 90.0 & 31.6 & 90.0 & 0.0 & 0.0 & 11.5 \\
+\bottomrule
+\end{tabular}
+\caption{Ablation Study across 110 Benchmark Claims on Local Phi-3.5 (3.8B). Demonstrates the contribution of automated canonical knowledge grounding, cross-encoder neural reranking, and deep entity pooling.}
+\label{tab:ablation_results}
+\end{table*}
