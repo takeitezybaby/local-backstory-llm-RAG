@@ -77,22 +77,34 @@ User Backstory ──► Syntactic Clause Decomposer + Entity Resolver
 
 ---
 
-## 4. Benchmark & Experimental Evaluation (`BackstoryBench-110`)
+## 4. Benchmark & Experimental Evaluation (`BackstoryBench-220`)
 
 ### Dataset Statistics
-* **110 Balanced Claims**: 44 `SUPPORT`, 33 `CONTRADICT`, 33 `NOT MENTIONED`.
-* **Corpora**: *In Search of the Castaways* (Jules Verne) and *The Count of Monte Cristo* (Alexandre Dumas) totaling 25,276 atomic chunks.
-* **Granularity**: 49 Short Atomic, 51 Long Narrative, 10 Extended $\ge 200$-Word Paragraphs.
+* **220 Balanced Claims** (55 claims per book): 89 `SUPPORT`, 66 `CONTRADICT`, 65 `NOT MENTIONED`.
+* **4 Diverse Corpora**:
+  1. *In Search of the Castaways* (Jules Verne - Adventure Fiction, 55 claims)
+  2. *The Count of Monte Cristo* (Alexandre Dumas - Historical Revenge, 55 claims)
+  3. *The Hound of the Baskervilles* (Arthur Conan Doyle - Detective Mystery, 55 claims)
+  4. *Dracula* (Bram Stoker - Gothic Horror, 55 claims)
+* **Total Corpus Scale**: 35,000+ atomic chunks, 112 automated canonical character persona profiles.
+* **Granularity**: 103 Short Atomic, 99 Long Narrative, 18 Extended $\ge 200$-Word Paragraphs.
 
-### Empirical Results Table
+### Empirical Scorecard Across All 4 Books
+* **Overall Accuracy**: **`60.00%` (132/220)** on local edge Small Language Model (Phi-3.5 3.8B).
+* **Novel-by-Novel Breakdown**:
+  * *In Search of the Castaways*: **`67.27%` (37/55)**
+  * *The Count of Monte Cristo*: **`65.45%` (36/55)**
+  * *Dracula*: **`58.18%` (32/55)**
+  * *The Hound of the Baskervilles*: **`49.09%` (27/55)**
+* **Granularity Breakdown**:
+  * Short Atomic: **`66.02%` (68/103)**
+  * Extended Paragraphs: **`61.11%` (11/18)**
+  * Long Narrative: **`53.54%` (53/99)**
+* **Verdict Class Performance**:
+  * **`SUPPORT`**: Precision = **`62.96%`**, Recall = **`76.40%`**, F1 = **`69.03%`**
+  * **`NOT MENTIONED`**: Precision = **`57.14%`**, Recall = **`73.85%`**, F1 = **`64.43%`**
+  * **`CONTRADICT`**: Precision = **`57.14%`**, Recall = **`24.24%`**, F1 = **`34.04%`**
 
-| System Configuration | Overall Acc (%) | Macro F1 (%) | Short Acc (%) | Narrative Acc (%) | Paragraph Acc (%) | Latency (s) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Backstory RAG (Full System - Ours)** | **66.36** | **64.35** | **77.55** | **54.90** | **70.00** | 18.2 |
-| w/o Canonical Knowledge Grounding | 50.91 | 42.96 | 51.02 | 49.02 | 60.00 | 16.5 |
-| w/o Cross-Encoder Reranker | 54.55 | 48.12 | 59.18 | 47.06 | 50.00 | 14.1 |
-| w/o Entity Pooling | 48.18 | 39.50 | 51.02 | 43.14 | 40.00 | 12.8 |
-| Vanilla Dense RAG (Baseline) | 30.00 | 24.10 | 30.00 | 25.49 | 20.00 | 11.5 |
 
 ### RAGAS Retrieval Quality
 * **Context Precision**: **`0.7125`** (+239% gain over unreranked `0.2102`)
