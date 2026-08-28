@@ -82,16 +82,17 @@ def atomic_pipeline (input_path, output_path):
       with open(input_path, "r", encoding="utf-8") as f :
             scenic_text = json.load(f)
       output_chunks = []
-      for scene in scenic_text :
+      total_scenes = len(scenic_text)
+      print(f"Processing {total_scenes:,} scenes for atomic chunk extraction...")
+      
+      for s_idx, scene in enumerate(scenic_text, 1) :
             text = scene["text"]
             book_num = scene["Book"]
             atomic_chunks = atomic_chunking(text)
-            print(f"Book {book_num} → before filter:", len(atomic_chunks))
             atomic_chunks = [
                   a for a in atomic_chunks
                   if is_factual(a)
             ]
-            print(f"Book {book_num} → after filter:", len(atomic_chunks))
             for idx, atomic_text in enumerate(atomic_chunks, 1) :
                   output_chunks.append({
                         "Book" : scene["Book"],
@@ -102,17 +103,24 @@ def atomic_pipeline (input_path, output_path):
                         "Word count" : len(atomic_text.split()),
                         "text" : atomic_text
                   })
+            if s_idx % 250 == 0 or s_idx == total_scenes:
+                  print(f"Processed {s_idx}/{total_scenes} scenes ({len(output_chunks):,} atomic chunks created so far)...")
             
       with open(output_path, "w", encoding="utf-8") as f :
-            json.dump(output_chunks,f)
+            json.dump(output_chunks, f, ensure_ascii=False)
       
       return output_chunks
 
+
 if __name__ == '__main__' :
-      output_chunks = atomic_pipeline("chunks.json", "atomicChunks.json")
+      in_p = os.path.join("Data", "chunks.json")
+      out_p = os.path.join("Data", "atomicChunks.json")
+      output_chunks = atomic_pipeline(in_p, out_p)
       print("Total atomic chunks:", len(output_chunks))
-      print("\nSample atomic chunk:\n")
-      print(output_chunks[0]["text"])
+      if output_chunks:
+            print("\nSample atomic chunk:\n")
+            print(output_chunks[0]["text"][:200])
+
 
 
       

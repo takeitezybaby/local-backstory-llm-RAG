@@ -16,25 +16,41 @@ def loadChunks(path):
             return json.load(f)
 
 
-#creating embeddings using nomic embed model
-def createEmbeddings(texts, max_retries=3) :
-      for attempt in range(max_retries) :
-            try :
-                  response = requests.post (
-                        "http://localhost:11434/api/embed",
-                        json= {
-                              "model" : "nomic-embed-text",
-                              "input" : texts
-                        },
-                        timeout=60
-                  )
-                  response.raise_for_status()
-                  return response.json()["embeddings"]
-            except Exception as e :
-                  if attempt == max_retries - 1 :
-                        raise e
-                  time.sleep(2)
-      return []
+#creating embeddings using nomic embed model in batches
+def createEmbeddings(texts, batch_size=128, max_retries=3) :
+      if isinstance(texts, str):
+            texts = [texts]
+            
+      all_embeddings = []
+      total = len(texts)
+      
+      for i in range(0, total, batch_size):
+            batch = texts[i:i+batch_size]
+            for attempt in range(max_retries) :
+                  try :
+                        response = requests.post (
+                              "http://localhost:11434/api/embed",
+                              json= {
+                                    "model" : "nomic-embed-text",
+                                    "input" : batch
+                              },
+                              timeout=90
+                        )
+                        response.raise_for_status()
+                        batch_embeds = response.json().get("embeddings", [])
+                        all_embeddings.extend(batch_embeds)
+                        break
+                  except Exception as e :
+                        if attempt == max_retries - 1 :
+                              print(f"Failed batch {i}-{i+len(batch)}: {e}")
+                              raise e
+                        time.sleep(2)
+                        
+            if total > batch_size and (i // batch_size) % 10 == 0:
+                  print(f"Embedded {min(i + batch_size, total)}/{total} chunks...")
+                  
+      return all_embeddings
+
 
 #creating entity map 
 def build_entity_map(chunks) :
