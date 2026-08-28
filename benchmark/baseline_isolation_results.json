@@ -1,0 +1,94 @@
+{
+  "[1] Vanilla Retrieval + Binary Prompt": {
+    "accuracy": 55.0,
+    "correct": 22,
+    "total": 40,
+    "avg_latency": 11.78,
+    "confusion_matrix": {
+      "SUPPORT": {
+        "SUPPORT": 17,
+        "CONTRADICT": 13,
+        "NOT MENTIONED": 0
+      },
+      "CONTRADICT": {
+        "SUPPORT": 1,
+        "CONTRADICT": 5,
+        "NOT MENTIONED": 0
+      },
+      "NOT MENTIONED": {
+        "SUPPORT": 1,
+        "CONTRADICT": 3,
+        "NOT MENTIONED": 0
+      }
+    }
+  },
+  "[2] Vanilla Retrieval + 3-Way OW-NLI Prompt": {
+    "accuracy": 40.0,
+    "correct": 16,
+    "total": 40,
+    "avg_latency": 11.6,
+    "confusion_matrix": {
+      "SUPPORT": {
+        "SUPPORT": 13,
+        "CONTRADICT": 7,
+        "NOT MENTIONED": 10
+      },
+      "CONTRADICT": {
+        "SUPPORT": 0,
+        "CONTRADICT": 2,
+        "NOT MENTIONED": 4
+      },
+      "NOT MENTIONED": {
+        "SUPPORT": 2,
+        "CONTRADICT": 1,
+        "NOT MENTIONED": 1
+      }
+    }
+  },
+  "[3] Backstory Retrieval + Binary Prompt": {
+    "accuracy": 47.5,
+    "correct": 19,
+    "total": 40,
+    "avg_latency": 15.69,
+    "confusion_matrix": {
+      "SUPPORT": {
+        "SUPPORT": 18,
+        "CONTRADICT": 0,
+        "NOT MENTIONED": 12
+      },
+      "CONTRADICT": {
+        "SUPPORT": 4,
+        "CONTRADICT": 0,
+        "NOT MENTIONED": 2
+      },
+      "NOT MENTIONED": {
+        "SUPPORT": 3,
+        "CONTRADICT": 0,
+        "NOT MENTIONED": 1
+      }
+    }
+  },
+  "[4] Full Backstory RAG (Retrieval + Persona + 3-Way OW-NLI)": {
+    "accuracy": 55.0,
+    "correct": 22,
+    "total": 40,
+    "avg_latency": 15.86,
+    "confusion_matrix": {
+      "SUPPORT": {
+        "SUPPORT": 18,
+        "CONTRADICT": 0,
+        "NOT MENTIONED": 12
+      },
+      "CONTRADICT": {
+        "SUPPORT": 1,
+        "CONTRADICT": 0,
+        "NOT MENTIONED": 5
+      },
+      "NOT MENTIONED": {
+        "SUPPORT": 0,
+        "CONTRADICT": 0,
+        "NOT MENTIONED": 4
+      }
+    }
+  }
+}
