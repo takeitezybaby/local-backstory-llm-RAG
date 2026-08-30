@@ -1,0 +1,242 @@
+{
+  "task1_conjunctive": {
+    "name": "Task 1: Conjunctive Aggregator (Phi-3.5)",
+    "acc": 48.63636363636364,
+    "correct": 107,
+    "total": 220,
+    "class_stats": {
+      "SUPPORT": {
+        "gt": 89,
+        "pred": 101,
+        "tp": 54,
+        "p": 53.46534653465347,
+        "r": 60.67415730337079,
+        "f1": 56.8421052631579
+      },
+      "CONTRADICT": {
+        "gt": 66,
+        "pred": 50,
+        "tp": 16,
+        "p": 32.0,
+        "r": 24.242424242424242,
+        "f1": 27.586206896551722
+      },
+      "NOT MENTIONED": {
+        "gt": 65,
+        "pred": 69,
+        "tp": 37,
+        "p": 53.62318840579711,
+        "r": 56.92307692307692,
+        "f1": 55.223880597014926
+      }
+    },
+    "halluc_supp": 47,
+    "non_supp_gt": 131,
+    "halluc_rate": 35.87786259541985,
+    "abstain_cnt": 69,
+    "abstain_rate": 31.363636363636367
+  },
+  "task1_whole_claim": {
+    "name": "Task 1: Whole Claim (No Decomposition, Phi-3.5)",
+    "acc": 51.81818181818182,
+    "correct": 114,
+    "total": 220,
+    "class_stats": {
+      "SUPPORT": {
+        "gt": 89,
+        "pred": 120,
+        "tp": 66,
+        "p": 55.00000000000001,
+        "r": 74.15730337078652,
+        "f1": 63.15789473684211
+      },
+      "CONTRADICT": {
+        "gt": 66,
+        "pred": 34,
+        "tp": 12,
+        "p": 35.294117647058826,
+        "r": 18.181818181818183,
+        "f1": 24.000000000000004
+      },
+      "NOT MENTIONED": {
+        "gt": 65,
+        "pred": 66,
+        "tp": 36,
+        "p": 54.54545454545454,
+        "r": 55.38461538461539,
+        "f1": 54.961832061068705
+      }
+    },
+    "halluc_supp": 54,
+    "non_supp_gt": 131,
+    "halluc_rate": 41.221374045801525,
+    "abstain_cnt": 66,
+    "abstain_rate": 30.0
+  },
+  "task2_mistral_fp_flips": {
+    "TOPICAL_CONTEXT_OVERLAP": {
+      "total": 35,
+      "fixed": 5,
+      "pred_breakdown": {
+        "SUPPORT": 20,
+        "NOT MENTIONED": 14,
+        "CONTRADICT": 1
+      }
+    },
+    "MULTI_CLAUSE_PARTIAL_MATCH": {
+      "total": 14,
+      "fixed": 6,
+      "pred_breakdown": {
+        "SUPPORT": 5,
+        "NOT MENTIONED": 8,
+        "CONTRADICT": 1
+      }
+    },
+    "NEAR_MISS_ENTITY_CONFUSION": {
+      "total": 6,
+      "fixed": 0,
+      "pred_breakdown": {
+        "SUPPORT": 3,
+        "NOT MENTIONED": 3
+      }
+    },
+    "PERSONA_PROFILE_OVERCONFIDENCE": {
+      "total": 6,
+      "fixed": 1,
+      "pred_breakdown": {
+        "NOT MENTIONED": 4,
+        "SUPPORT": 2
+      }
+    }
+  },
+  "task2_mistral_full": {
+    "name": "Task 2: Mistral-7B + Conjunctive Aggregator",
+    "acc": 50.45454545454545,
+    "correct": 111,
+    "total": 220,
+    "class_stats": {
+      "SUPPORT": {
+        "gt": 89,
+        "pred": 139,
+        "tp": 79,
+        "p": 56.83453237410072,
+        "r": 88.76404494382022,
+        "f1": 69.29824561403508
+      },
+      "CONTRADICT": {
+        "gt": 66,
+        "pred": 3,
+        "tp": 3,
+        "p": 100.0,
+        "r": 4.545454545454546,
+        "f1": 8.695652173913043
+      },
+      "NOT MENTIONED": {
+        "gt": 65,
+        "pred": 78,
+        "tp": 29,
+        "p": 37.17948717948718,
+        "r": 44.61538461538462,
+        "f1": 40.55944055944057
+      }
+    },
+    "halluc_supp": 60,
+    "non_supp_gt": 131,
+    "halluc_rate": 45.80152671755725,
+    "abstain_cnt": 78,
+    "abstain_rate": 35.45454545454545
+  },
+  "task3_scoped_trace": [
+    {
+      "id": 120,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Jack Stapleton was the loyal younger brother of Sir Henry Baskerville who saved Sherlock Holmes from drowning in the Grimpen Mire and became Baron of Devonshire.",
+      "reference": "Stapleton was a villainous cousin who drowned in the Grimpen Mire.",
+      "diagnosis": "PRESENT_IN_CANDIDATE_POOL_BUT_DROPPED_BY_RERANKER"
+    },
+    {
+      "id": 121,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Dr. Watson secretly poisoned Sir Charles Baskerville with cyanide on the instructions of Inspector Lestrade to confiscate the moorlands for the British Crown.",
+      "reference": "Watson is loyal and never poisoned Sir Charles.",
+      "diagnosis": "PRESENT_IN_TOP_8 (Model Reasoning Error)"
+    },
+    {
+      "id": 130,
+      "book": "Dracula",
+      "claim": "Jonathan Harker murdered Professor Van Helsing with a silver sword in Munich after discovering Van Helsing was a vampire.",
+      "reference": "Van Helsing survived and was never killed by Harker.",
+      "diagnosis": "PRESENT_IN_TOP_8 (Model Reasoning Error)"
+    },
+    {
+      "id": 186,
+      "book": "Dracula",
+      "claim": "Jonathan Harker was executed by the Austrian police in Vienna on false charges of bank robbery.",
+      "reference": "Harker was never executed in Vienna; he escaped Transylvania and lived.",
+      "diagnosis": "PRESENT_IN_CANDIDATE_POOL_BUT_DROPPED_BY_RERANKER"
+    },
+    {
+      "id": 187,
+      "book": "Dracula",
+      "claim": "Count Dracula was destroyed when Van Helsing shot him through the head with a brass cannon on London Bridge.",
+      "reference": "Dracula was destroyed in Transylvania with knives by Harker and Morris.",
+      "diagnosis": "PRESENT_IN_TOP_8 (Model Reasoning Error)"
+    },
+    {
+      "id": 189,
+      "book": "Dracula",
+      "claim": "Mina Harker became an immortal vampire empress who ruled the Carpathian mountains alongside Count Dracula.",
+      "reference": "Mina was cured when Dracula was destroyed.",
+      "diagnosis": "PRESENT_IN_TOP_8 (Model Reasoning Error)"
+    },
+    {
+      "id": 199,
+      "book": "Dracula",
+      "claim": "Lucy Westenra was an American journalist from Chicago investigating the British asylum system.",
+      "reference": "Lucy was an English aristocratic young woman.",
+      "diagnosis": "ABSENT_FROM_RETRIEVAL_POOL (Entity/Index Miss)"
+    },
+    {
+      "id": 205,
+      "book": "Dracula",
+      "claim": "Count Dracula successfully hijacked the British royal yacht Victoria and Albert, sailing up the Thames to force Prime Minister Gladstone to surrender the Crown Jewels.",
+      "reference": "Dracula never hijacked the royal yacht or met Gladstone.",
+      "diagnosis": "PRESENT_IN_CANDIDATE_POOL_BUT_DROPPED_BY_RERANKER"
+    },
+    {
+      "id": 114,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Sherlock Holmes was a former Scotland Yard inspector who retired in 1870 to manage Baskerville Hall as a paid bailiff.",
+      "reference": "Holmes was never a Scotland Yard inspector or bailiff for Baskerville Hall.",
+      "diagnosis": "PRESENT_IN_TOP_8 (Model Reasoning Error)"
+    },
+    {
+      "id": 115,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Sir Henry Baskerville was murdered on the London Underground by Dr. Mortimer before he could ever visit Baskerville Hall.",
+      "reference": "Sir Henry was not murdered in London; he survived and traveled to Dartmoor.",
+      "diagnosis": "PRESENT_IN_TOP_8 (Model Reasoning Error)"
+    },
+    {
+      "id": 147,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Sherlock Holmes deduced that Sir Henry Baskerville was secretly an impostor who murdered the real Sir Henry in Canada.",
+      "reference": "Sir Henry was genuine and proved his lineage.",
+      "diagnosis": "ABSENT_FROM_RETRIEVAL_POOL (Entity/Index Miss)"
+    },
+    {
+      "id": 148,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Dr. James Mortimer was the primary mastermind who bred the hound to inherit Baskerville Hall.",
+      "reference": "Mortimer was an innocent friend and trustee; Stapleton was the villain.",
+      "diagnosis": "PRESENT_IN_TOP_8 (Model Reasoning Error)"
+    },
+    {
+      "id": 150,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Jack Stapleton successfully fled to America on an ocean liner with Sir Henry's stolen millions.",
+      "reference": "Stapleton died by drowning in the Great Grimpen Mire.",
+      "diagnosis": "PRESENT_IN_CANDIDATE_POOL_BUT_DROPPED_BY_RERANKER"
+    }
+  ]
+}

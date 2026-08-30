@@ -1,0 +1,112 @@
+{
+  "task1_baseline_of_record": {
+    "name": "Task 1: Conjunctive Aggregator (Phi-3.5)",
+    "acc": 48.63636363636364,
+    "correct": 107,
+    "total": 220,
+    "class_stats": {
+      "SUPPORT": {
+        "gt": 89,
+        "pred": 101,
+        "tp": 54,
+        "p": 53.46534653465347,
+        "r": 60.67415730337079,
+        "f1": 56.8421052631579
+      },
+      "CONTRADICT": {
+        "gt": 66,
+        "pred": 50,
+        "tp": 16,
+        "p": 32.0,
+        "r": 24.242424242424242,
+        "f1": 27.586206896551722
+      },
+      "NOT MENTIONED": {
+        "gt": 65,
+        "pred": 69,
+        "tp": 37,
+        "p": 53.62318840579711,
+        "r": 56.92307692307692,
+        "f1": 55.223880597014926
+      }
+    },
+    "halluc_supp": 47,
+    "non_supp_gt": 131,
+    "halluc_rate": 35.87786259541985,
+    "abstain_cnt": 69,
+    "abstain_rate": 31.363636363636367
+  },
+  "task2_negation_reranker": {
+    "name": "Task 2: Reranker Negation Boost",
+    "acc": 50.90909090909091,
+    "class_stats": {
+      "SUPPORT": {
+        "gt": 89,
+        "pred": 73,
+        "tp": 49,
+        "p": 67.12328767123287,
+        "r": 55.0561797752809,
+        "f1": 60.49382716049383
+      },
+      "CONTRADICT": {
+        "gt": 66,
+        "pred": 55,
+        "tp": 22,
+        "p": 40.0,
+        "r": 33.33333333333333,
+        "f1": 36.36363636363636
+      },
+      "NOT MENTIONED": {
+        "gt": 65,
+        "pred": 92,
+        "tp": 41,
+        "p": 44.565217391304344,
+        "r": 63.07692307692307,
+        "f1": 52.22929936305732
+      }
+    },
+    "halluc_supp": 24,
+    "halluc_rate": 18.3206106870229,
+    "abstain_rate": 41.81818181818181
+  },
+  "task2_target_surface_results": {
+    "120": true,
+    "150": false,
+    "186": false,
+    "205": false
+  },
+  "task3_structured_prompt": {
+    "name": "Task 3: Structured Prompt",
+    "acc": 36.81818181818181,
+    "class_stats": {
+      "SUPPORT": {
+        "gt": 89,
+        "pred": 62,
+        "tp": 24,
+        "p": 38.70967741935484,
+        "r": 26.96629213483146,
+        "f1": 31.788079470198674
+      },
+      "CONTRADICT": {
+        "gt": 66,
+        "pred": 143,
+        "tp": 49,
+        "p": 34.26573426573427,
+        "r": 74.24242424242425,
+        "f1": 46.889952153110045
+      },
+      "NOT MENTIONED": {
+        "gt": 65,
+        "pred": 15,
+        "tp": 8,
+        "p": 53.333333333333336,
+        "r": 12.307692307692308,
+        "f1": 20.0
+      }
+    },
+    "halluc_supp": 38,
+    "halluc_rate": 29.00763358778626,
+    "abstain_rate": 6.8181818181818175
+  },
+  "task3_fp_fixed_count": 35
+}

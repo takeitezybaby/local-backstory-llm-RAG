@@ -1,0 +1,219 @@
+{
+  "task1_n5_runs": [
+    {
+      "seed": 42,
+      "acc": 52.27272727272727,
+      "support_f1": 63.67713004484306,
+      "support_p": 52.98507462686567,
+      "support_r": 79.7752808988764,
+      "contradict_f1": 22.22222222222222,
+      "contradict_p": 33.33333333333333,
+      "contradict_r": 16.666666666666664,
+      "not_mentioned_f1": 55.932203389830505,
+      "not_mentioned_p": 62.264150943396224,
+      "not_mentioned_r": 50.76923076923077,
+      "halluc_supp": 63,
+      "halluc_rate": 48.091603053435115
+    },
+    {
+      "seed": 43,
+      "acc": 52.27272727272727,
+      "support_f1": 63.67713004484306,
+      "support_p": 52.98507462686567,
+      "support_r": 79.7752808988764,
+      "contradict_f1": 22.22222222222222,
+      "contradict_p": 33.33333333333333,
+      "contradict_r": 16.666666666666664,
+      "not_mentioned_f1": 55.932203389830505,
+      "not_mentioned_p": 62.264150943396224,
+      "not_mentioned_r": 50.76923076923077,
+      "halluc_supp": 63,
+      "halluc_rate": 48.091603053435115
+    },
+    {
+      "seed": 44,
+      "acc": 52.27272727272727,
+      "support_f1": 63.67713004484306,
+      "support_p": 52.98507462686567,
+      "support_r": 79.7752808988764,
+      "contradict_f1": 22.22222222222222,
+      "contradict_p": 33.33333333333333,
+      "contradict_r": 16.666666666666664,
+      "not_mentioned_f1": 55.932203389830505,
+      "not_mentioned_p": 62.264150943396224,
+      "not_mentioned_r": 50.76923076923077,
+      "halluc_supp": 63,
+      "halluc_rate": 48.091603053435115
+    },
+    {
+      "seed": 45,
+      "acc": 52.27272727272727,
+      "support_f1": 63.67713004484306,
+      "support_p": 52.98507462686567,
+      "support_r": 79.7752808988764,
+      "contradict_f1": 22.22222222222222,
+      "contradict_p": 33.33333333333333,
+      "contradict_r": 16.666666666666664,
+      "not_mentioned_f1": 55.932203389830505,
+      "not_mentioned_p": 62.264150943396224,
+      "not_mentioned_r": 50.76923076923077,
+      "halluc_supp": 63,
+      "halluc_rate": 48.091603053435115
+    },
+    {
+      "seed": 46,
+      "acc": 52.27272727272727,
+      "support_f1": 63.67713004484306,
+      "support_p": 52.98507462686567,
+      "support_r": 79.7752808988764,
+      "contradict_f1": 22.22222222222222,
+      "contradict_p": 33.33333333333333,
+      "contradict_r": 16.666666666666664,
+      "not_mentioned_f1": 55.932203389830505,
+      "not_mentioned_p": 62.264150943396224,
+      "not_mentioned_r": 50.76923076923077,
+      "halluc_supp": 63,
+      "halluc_rate": 48.091603053435115
+    }
+  ],
+  "task1_summary": {
+    "acc_mean": 52.27272727272727,
+    "acc_std": 0.0,
+    "contradict_f1_mean": 22.22222222222222,
+    "contradict_f1_std": 0.0,
+    "support_f1_mean": 63.677130044843054,
+    "support_f1_std": 7.105427357601002e-15,
+    "not_mentioned_f1_mean": 55.93220338983051,
+    "not_mentioned_f1_std": 7.105427357601002e-15,
+    "halluc_rate_mean": 48.091603053435115,
+    "halluc_rate_std": 0.0
+  },
+  "task2_flipped_contradictions": [
+    {
+      "id": 26,
+      "book": "In search of the castaways.txt",
+      "claim": "Captain Harry Grant was executed in London for treason against the House of Lords in 1860.",
+      "reference": "Captain Grant was shipwrecked in the Pacific Ocean and was safely rescued by Lord Glenarvan.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "NOT MENTIONED",
+      "reranker_only_3way": "NOT MENTIONED",
+      "persona_only_3way": "NOT MENTIONED"
+    },
+    {
+      "id": 35,
+      "book": "In search of the castaways.txt",
+      "claim": "Thalcave refused to guide Glenarvan across Patagonia until he was paid one thousand gold sovereigns. When the party reached the Argentine Pampas, he stole their horses and left them stranded in the desert.",
+      "reference": "Thalcave was a noble and generous guide who showed unwavering loyalty and deep affection for young Robert.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "CONTRADICT",
+      "persona_only_3way": "SUPPORT"
+    },
+    {
+      "id": 77,
+      "book": "The Count of Monte Cristo.txt",
+      "claim": "Albert de Morcerf shot and killed Edmond Dantès during their morning duel at the Bois de Vincennes.",
+      "reference": "Albert publicly apologized to the Count on the dueling grounds after learning of his father's betrayal.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "NOT MENTIONED",
+      "persona_only_3way": "CONTRADICT"
+    },
+    {
+      "id": 81,
+      "book": "The Count of Monte Cristo.txt",
+      "claim": "Fernand Mondego was decorated as a national hero of Greece for defending the fortress of Yanina alongside Ali Pasha. He used his personal fortune to liberate Greek orphans and was honored with a public monument in Athens.",
+      "reference": "Fernand betrayed Ali Pasha, murdered him, sold his wife and daughter into slavery, and was publicly disgraced as a traitor.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "SUPPORT",
+      "persona_only_3way": "NOT MENTIONED"
+    },
+    {
+      "id": 84,
+      "book": "The Count of Monte Cristo.txt",
+      "claim": "Haydée poisoned the Count of Monte Cristo on the island of Monte Cristo to avenge the death of her father Ali Pasha. She then sailed to Constantinople and presented his treasure to the Sultan.",
+      "reference": "Haydée was deeply in love with the Count, regarded him as her master and protector, and departed happily with him at the novel's conclusion.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "NOT MENTIONED",
+      "persona_only_3way": "SUPPORT"
+    },
+    {
+      "id": 103,
+      "book": "In search of the castaways.txt",
+      "claim": "Ayrton was originally introduced to Lord Edward Glenarvan in the province of Victoria in Australia as a deeply loyal Scottish navigator who had faithfully served as the chief navigator of the yacht Duncan since its maiden voyage from Glasgow. Throughout the difficult overland expedition across the Australian continent, Ayrton consistently warned Lord Glenarvan to avoid the dangerous convicts led by the notorious bushranger Ben Joyce, bravely shielding Lady Helena and Mary Grant from multiple armed bandit ambushes near the Snowy River with his personal rifle and defensive tactics. When the expedition wagon was permanently immobilized in the swollen marshes of the Australian interior, Ayrton volunteered to ride day and night through torrential downpours to Melbourne to deliver Glenarvan's letter to Tom Austin, ensuring that the Duncan sailed safely to Twofold Bay to rescue the stranded travelers. Upon reaching Tabor Island in the Pacific Ocean, Lord Glenarvan rewarded Ayrton's exemplary loyalty and heroism by presenting him with a substantial lifetime pension and appointing him chief administrator of Malcolm Castle in Scotland, where he lived peacefully alongside Captain Harry Grant and his grateful children for the remainder of his days, having preserved the yacht and protected the crew from all harm throughout their entire round-the-world voyage.",
+      "reference": "Ayrton was actually the convict Ben Joyce who attempted to destroy the expedition and seize the Duncan; he was shot by MacNabb and marooned on Tabor Island to atone.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "SUPPORT",
+      "persona_only_3way": "SUPPORT"
+    },
+    {
+      "id": 129,
+      "book": "Dracula",
+      "claim": "Count Dracula was an English merchant from Manchester who traded wool and spices and never visited Transylvania.",
+      "reference": "Dracula is a Transylvanian vampire nobleman.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "CONTRADICT",
+      "persona_only_3way": "SUPPORT"
+    },
+    {
+      "id": 149,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Barrymore the butler murdered Selden with an axe on the moor to prevent the convict from revealing family secrets.",
+      "reference": "Selden died from a fall while being pursued by the hound, wearing Sir Henry's clothes.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "CONTRADICT",
+      "persona_only_3way": "CONTRADICT"
+    },
+    {
+      "id": 158,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Cartwright the errand boy was secretly an agent for the Russian embassy tracking Sherlock Holmes.",
+      "reference": "Cartwright was a loyal English boy helping Holmes check hotel wastepaper.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "SUPPORT",
+      "persona_only_3way": "SUPPORT"
+    },
+    {
+      "id": 166,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Dr. Watson confessed to Sherlock Holmes that he had fabricated the entire curse of the Baskervilles to write a bestselling gothic novel for the Strand Magazine.",
+      "reference": "The curse and events were real; Watson never fabricated the case.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "NOT MENTIONED",
+      "persona_only_3way": "SUPPORT"
+    },
+    {
+      "id": 167,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Inspector Lestrade arrested Sherlock Holmes in London for illegal firearms possession after Holmes fired his revolver inside the 221B Baker Street sitting room.",
+      "reference": "Holmes was never arrested by Lestrade.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "SUPPORT",
+      "persona_only_3way": "SUPPORT"
+    },
+    {
+      "id": 168,
+      "book": "The_Hound_of_the_Baskervilles",
+      "claim": "Selden the escaped convict stole Sir Henry Baskerville's gold watch and escaped to Australia aboard a merchant brig from Plymouth.",
+      "reference": "Selden died on Dartmoor after falling from the rocks.",
+      "vanilla_3way": "CONTRADICT",
+      "full_system": "SUPPORT",
+      "reranker_only_3way": "CONTRADICT",
+      "persona_only_3way": "SUPPORT"
+    }
+  ],
+  "task3_false_positive_categories": {
+    "MULTI_CLAUSE_PARTIAL_MATCH": 16,
+    "PERSONA_PROFILE_OVERCONFIDENCE": 8,
+    "NEAR_MISS_ENTITY_CONFUSION": 5,
+    "TOPICAL_CONTEXT_OVERLAP": 34
+  }
+}
